@@ -28,14 +28,16 @@
             <div class="ibox">
                 <div class="ibox-content">
 
-            <form class="m-t">
-
+            <form class="m-t" action="user_login" method="POST">
+                {{ csrf_field() }}
+                @include('include.flash')
+                @include('include.errors')
 
                 <div class="form-group">
-                    <input  type="text" class="form-control"  autofocus placeholder="Username">
+                    <input  type="text" class="form-control"  autofocus placeholder="Username" name="username">
                 </div>
                 <div class="form-group">
-                    <input  type="password" class="form-control" placeholder="Password">
+                    <input  type="password" class="form-control" placeholder="Password" name="password">
                 </div>
                 <button type="submit" class="btn btn-success block full-width m-b">LOGIN</button>
 

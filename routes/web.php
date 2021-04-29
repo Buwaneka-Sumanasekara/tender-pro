@@ -28,3 +28,5 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('registration.register');
 });
+
+Route::post('/user_login', 'UserController@user_login');
