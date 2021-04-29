@@ -59,11 +59,6 @@ class UserController extends Controller
                     throw new Exception("Login Faild");
                 }
             }
-           
-           
-                
-            
-
         } catch (\Exception $e) {
             session()->flash('message',$e->message);
             return redirect()->back(); 
@@ -71,14 +66,7 @@ class UserController extends Controller
     }
 
 
-    
-    function user_role_getUserRolePermissions($user_role_id){
-        try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-    }
+   
 
 
     
