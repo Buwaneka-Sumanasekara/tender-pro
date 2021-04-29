@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+
 use App\Http\Controllers\Controller;
 use App\Http\Traits\UserTrait;
 use App\Models\UmUser;
@@ -34,7 +36,7 @@ class UserController extends Controller
             } else {
                 if (Hash::check($request->get('password'), $user_login_object->password)) {
                     $user_obj = UmUser::find($user_login_object->um_user_id);
-                    if (!$user_obj) {
+                    if ($user_obj) {
                         if ($user_obj->um_user_status_id === config('global.user_status_active')) {
                             $user_permissions = $this->user_role_getUserRolePermissions($user_obj->um_user_role_id);
                             session(['logged_user_object' => $user_obj, 'permissions' => json_encode($user_permissions)]);
@@ -50,7 +52,7 @@ class UserController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            session()->flash('message', $e->message);
+            session()->flash('message', $e->getMessage());
             return redirect()->back();
         }
     }
