@@ -21,6 +21,18 @@ expensive.
 ## Theme used
 http://webapplayers.com/inspinia_admin-v2.9.4/form_basic.html
 
+
+## useful commands
+
+### Setting up project
+
+- Create database named "tender_pro_db"
+- add DB connection settings on .env file
+
+- run following command for generate tables and default data
+
+```php artisan migrate:refresh --seed
+
 ## License
 
  [MIT license](https://opensource.org/licenses/MIT).
