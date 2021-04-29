@@ -17,6 +17,7 @@ class CreatePmPermissionsTable extends Migration
             $table->integer('id')->primary();
             $table->string('permission',100);
             $table->string('tab_name',100);
+            $table->integer('order_no')->default(0);
             $table->timestamps();
         });
     }
