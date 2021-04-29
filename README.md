@@ -31,7 +31,9 @@ http://webapplayers.com/inspinia_admin-v2.9.4/form_basic.html
 
 - run following command for generate tables and default data
 
-```php artisan migrate:refresh --seed
+``` 
+php artisan migrate:refresh --seed
+```
 
 ## License
 
