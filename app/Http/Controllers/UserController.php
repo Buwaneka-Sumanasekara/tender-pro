@@ -53,8 +53,15 @@ class UserController extends Controller
             }
         } catch (\Exception $e) {
             session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
             return redirect()->back();
         }
+    }
+
+    public function user_logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('/');
     }
 
 }

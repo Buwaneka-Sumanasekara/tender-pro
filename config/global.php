@@ -8,7 +8,11 @@ return [
 
     //user roles
     'user_role_admin'=>0,
-    'user_role_vendor'=>1
+    'user_role_vendor'=>1,
+
+    //alerts
+    'flash_success'=>'alert-success',
+    'flash_error'=>'alert-danger'
 ];
 
 ?>
