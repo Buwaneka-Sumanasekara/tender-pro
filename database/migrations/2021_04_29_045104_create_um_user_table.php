@@ -16,7 +16,7 @@ class CreateUmUserTable extends Migration
         Schema::create('um_user', function (Blueprint $table) {
             $table->bigInteger('id')->primary();
             $table->string('firstname',100);
-            $table->string('lastname',100);
+            $table->string('lastname',100)->nullable()->default("");
             $table->integer('um_user_status_id');
             $table->integer('um_user_role_id');
             $table->foreign('um_user_status_id')->references('id')->on('um_user_status');

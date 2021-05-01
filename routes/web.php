@@ -13,17 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home.home');
 });
 
-//Authentication
-Route::get('/', function () {
-    return view('login.login');
-});
+/*==User Login / Registration===*/
 Route::post('/user/login', [UserController::class, 'user_login']);
 Route::get('/user/logout', [UserController::class, 'user_logout']);
+Route::post('/user/register', [UserController::class, 'user_registration']);
+
+Route::get('/login', function () {
+    return view('login.login');
+});
 
 Route::get('/register', function () {
     return view('registration.register');
 });
+
+/*==END: User Login / Registration===*/

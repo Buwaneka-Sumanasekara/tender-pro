@@ -43,7 +43,7 @@
 
                 <a href="#" style="color: gray"><small><b>Forgot password?</b></small></a>
                 <p class="text-muted text-center"><small><b>Do not have an account?</b></small></p>
-                <a class="btn btn-sm btn-danger btn-block text-white" href="/register">Create an account</a>
+                <a class="btn btn-sm btn-danger btn-outline btn-block" href="/register">Create an account</a>
             </form>
         </div>
     </div>
