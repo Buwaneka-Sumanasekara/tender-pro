@@ -11,6 +11,6 @@ class UmUser extends Model
 
     protected $table = 'um_user';
     protected $fillable = ['id','firstname','lastname','um_user_status_id','um_user_role_id'];
-
-    public $incrementing = true;
+    public $incrementing = false;
+    
 }

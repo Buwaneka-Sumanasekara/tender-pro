@@ -26,7 +26,15 @@
         </div>  
     </div>
 
+    <div class="row">
+        <div class="col-lg-12">
+        @foreach ($tenders as $tender)
+            <p>{{ $tender->id }} {{ $tender->daysRemain() }} </p>
+        @endforeach
+        </div>
+    </div>  
 
+    
 
 
 <script src="js/plugins/slick/slick.min.js"></script>

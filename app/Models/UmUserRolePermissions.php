@@ -13,7 +13,7 @@ class UmUserRolePermissions extends Model
      * @var string
      */
     protected $table = 'um_user_role_has_pm_permissions';
-  
+    public $incrementing = false;
 
     public function userRoles()
     {

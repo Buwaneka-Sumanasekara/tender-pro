@@ -18,7 +18,9 @@ use App\Models\UmUser;
 use App\Models\UmUserLogin;
 use App\Models\VmVendor;
 use App\Models\TmTenderCategory;
+use App\Models\TmTender;
 
+use Carbon\Carbon;
 
 
 class UserController extends Controller
@@ -28,8 +30,8 @@ class UserController extends Controller
     public function home(Request $request)
     {
         $categorries=TmTenderCategory::where('active', 1)->get();
-       // dd($categorries);
-        return view('home.home',compact('categorries'));
+        $tenders=TmTender::where('tm_tender_status_id', 1)->where("end_date",'>',Carbon::now())->get();
+        return view('home.home',compact('categorries','tenders'));
     }
 
 
