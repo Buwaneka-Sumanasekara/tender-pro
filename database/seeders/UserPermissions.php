@@ -24,14 +24,10 @@ class UserPermissions extends Seeder
             ['um_user_role_id'=>config('global.user_role_admin'),'pm_permissions_id'=>1002],
             ['um_user_role_id'=>config('global.user_role_admin'),'pm_permissions_id'=>1003],
             ['um_user_role_id'=>config('global.user_role_admin'),'pm_permissions_id'=>1004],
-            ['um_user_role_id'=>config('global.user_role_admin'),'pm_permissions_id'=>1100],
-            ['um_user_role_id'=>config('global.user_role_admin'),'pm_permissions_id'=>1101],
 
             //Vendor
             ['um_user_role_id'=>config('global.user_role_vendor'),'pm_permissions_id'=>2000],
             ['um_user_role_id'=>config('global.user_role_vendor'),'pm_permissions_id'=>2001],
-            ['um_user_role_id'=>config('global.user_role_vendor'),'pm_permissions_id'=>2100],
-            ['um_user_role_id'=>config('global.user_role_vendor'),'pm_permissions_id'=>2101],
 
         ];
 

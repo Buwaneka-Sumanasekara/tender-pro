@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UmUser extends Model
 {
-      /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
+    use HasFactory;
+
     protected $table = 'um_user';
     protected $fillable = ['id','firstname','lastname','um_user_status_id','um_user_role_id'];
 

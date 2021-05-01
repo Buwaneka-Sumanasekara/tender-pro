@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         <li >
-                            <a href="/login">
+                            <a href="/register">
                                 <i class="fa fa-user-plus"></i> &nbsp;Register
                             </a>
                         </li>
@@ -59,11 +59,20 @@
                     @else
                        <li><i class="fa fa-user-circle-o fa-2x"></i> </li>
                        <li>
-                          
-                          <span class="m-r-sm text-muted welcome-message"> &nbsp;<strong>{{ session()->get('logged_user_object')->firstname }} {{ session()->get('logged_user_object')->lastname }}</strong></span>
+                          <span class="m-r-sm text-muted welcome-message"> &nbsp;<strong>{{ session()->get('logged_user_object')->firstname }} {{ session()->get('logged_user_object')->lastname }}</strong>
+                          @if(session()->get('logged_user_object')->um_user_role_id === config("global.user_role_admin"))
+                          (Admin)
+                          @endif
+                        </span>
+                        </li>
+                        <li class="">
+                            <a href="/account" class="text-success">
+                                <i class="fa fa-square-o"></i>
+                                Account
+                            </a>
                         </li>   
                         <li>
-                            <a href="/user/logout">
+                            <a href="/user/logout" class="text-danger">
                                 <i class="fa fa-sign-out"></i>Log out
                             </a>
                         </li>

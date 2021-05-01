@@ -16,7 +16,7 @@
                             </div>
                             <div class="col-10 text-right">
                                 <span>{{ $category->name }}</span>
-                                <h2 class="font-bold">15</h2>
+                                <h2 class="font-bold">{{ count($category->tenders()->get()) }}</h2>
                             </div>
                         </div>
                 </div>

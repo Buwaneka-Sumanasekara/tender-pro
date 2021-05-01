@@ -9,7 +9,16 @@ class TmTenderCategory extends Model
 {
     use HasFactory;
     protected $table = 'tm_tender_category';
-    // protected $fillable = ['id','name','symble','active','icon'];
+    protected $fillable = ['id','name','symble','active','icon'];
 
-    // public $incrementing = true;
+ 
+    /**
+     * Get all of the Tenders for the category.
+     */
+   
+    public function tenders()
+    {
+        return $this->hasMany(TmTender::class,'tm_tender_category_id','id');
+    }
+
 }

@@ -12,7 +12,13 @@ return [
 
     //alerts
     'flash_success'=>'alert-success',
-    'flash_error'=>'alert-danger'
+    'flash_error'=>'alert-danger',
+
+
+     //tender status
+     'tender_removed'=>0,
+     'tender_active'=>1,
+
 ];
 
 ?>
