@@ -12,6 +12,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Validator;
+
 class UserController extends Controller
 {
     use UserTrait;
@@ -22,10 +24,18 @@ class UserController extends Controller
     public function user_login(Request $request)
     {
         try {
-            $validated = $request->validate([
-                'username' => 'bail|required',
-                'password' => 'required',
-            ]);
+            
+           $validator=Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required',
+           ],[
+            'username.required' => ':attribute field is required.',
+            'password.required' => ':attribute field is required.'
+           ]);
+           if ($validator->fails()) {
+             return redirect()->back()->withErrors($validator)->withInput();
+           }
+
 
             $username = $request->get('username');
             $password = $request->get('password');
@@ -64,4 +74,48 @@ class UserController extends Controller
         return redirect('/');
     }
 
+
+    /*
+     * Registration function
+     */
+    public function user_registration(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'firstname' => 'bail|required',
+                'lastname' => 'required',
+            ],[
+                'firstname.required'=>'First name should be fill'
+            ]);
+
+            $username = $request->get('username');
+            $password = $request->get('password');
+
+            $user_login_object = UmUserLogin::where("username", $username)->first();
+            if (!$user_login_object) {
+                throw new Exception("Invalid User");
+            } else {
+                if (Hash::check($request->get('password'), $user_login_object->password)) {
+                    $user_obj = UmUser::find($user_login_object->um_user_id);
+                    if ($user_obj) {
+                        if ($user_obj->um_user_status_id === config('global.user_status_active')) {
+                            $user_permissions = $this->user_role_getUserRolePermissions($user_obj->um_user_role_id);
+                            session(['logged_user_object' => $user_obj, 'permissions' => json_encode($user_permissions)]);
+                            return redirect('/');
+                        } else {
+                            throw new Exception("Your account has been blocked, Please contact System Admin");
+                        }
+                    } else {
+                        throw new Exception("User not found");
+                    }
+                } else {
+                    throw new Exception("Login Faild");
+                }
+            }
+        } catch (\Exception $e) {
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back();
+        }
+    }
 }

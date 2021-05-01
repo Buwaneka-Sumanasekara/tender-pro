@@ -2,7 +2,7 @@
 
     <div class="alert {{ session('flash_message_type') }}" role="alert">
 
-        {{$flash}}
+    <i class="fa fa-warning"></i>  {{$flash}}
 
     </div>
 @endif
