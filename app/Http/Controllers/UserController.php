@@ -6,22 +6,33 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\UserTrait;
-use App\Models\UmUser;
-use App\Models\UmUserLogin;
-use App\Models\VmVendor;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
-
 use Illuminate\Support\Facades\DB;
+
+use App\Models\UmUser;
+use App\Models\UmUserLogin;
+use App\Models\VmVendor;
+use App\Models\TmTenderCategory;
+
+
 
 class UserController extends Controller
 {
     use UserTrait;
+
+    public function home(Request $request)
+    {
+        $categorries=TmTenderCategory::where('active', 1)->get();
+       // dd($categorries);
+        return view('home.home',compact('categorries'));
+    }
+
+
 
     /*
      * Login function

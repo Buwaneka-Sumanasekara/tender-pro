@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('home.home');
-});
+Route::get('/',[UserController::class, 'home']);
 
 /*==User Login / Registration===*/
 Route::post('/user/login', [UserController::class, 'user_login']);

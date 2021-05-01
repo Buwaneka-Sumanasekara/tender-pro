@@ -7,20 +7,21 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="slider_my">
-            @for ($i = 0; $i < 10; $i++)
-                <div class="widget lazur-bg mx-2 no-padding">
+
+            @foreach ($categorries as $category)
+                 <div class="widget lazur-bg mx-2 no-padding">
                         <div class="row p-2">
-                            <div class="col-4">
-                                <i class="fa fa-cloud fa-5x"></i>
+                            <div class="col-2">
+                                <i class="{{$category->icon }} fa-3x"></i>
                             </div>
-                            <div class="col-8 text-right">
-                                <span>Category</span>
+                            <div class="col-10 text-right">
+                                <span>{{ $category->name }}</span>
                                 <h2 class="font-bold">15</h2>
                             </div>
                         </div>
-                    
                 </div>
-            @endfor
+            @endforeach
+           
             </div>
         </div>  
     </div>
