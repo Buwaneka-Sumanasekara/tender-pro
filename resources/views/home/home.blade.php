@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-10 offset-md-1">
+        <div class="col-md-12">
             <div class="slider_my">
             @foreach ($categorries as $category)
                  <div class="widget lazur-bg mx-2 no-padding">
