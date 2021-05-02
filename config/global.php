@@ -19,6 +19,10 @@ return [
      'tender_removed'=>0,
      'tender_active'=>1,
 
+     //session attributes
+     'session_user_obj'=>"logged_user_object",
+     'session_permissions'=>"permissions"
+
 ];
 
 ?>

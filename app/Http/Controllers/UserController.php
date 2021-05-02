@@ -67,7 +67,7 @@ class UserController extends Controller
                     if ($user_obj) {
                         if ($user_obj->um_user_status_id === config('global.user_status_active')) {
                             $user_permissions = $this->user_role_getUserRolePermissions($user_obj->um_user_role_id);
-                            session(['logged_user_object' => $user_obj, 'permissions' => json_encode($user_permissions)]);
+                            session([config("global.session_user_obj") => $user_obj, config("global.session_permissions") => json_encode($user_permissions)]);
                             return redirect('/');
                         } else {
                             throw new Exception("Your account has been blocked, Please contact System Admin");
@@ -149,6 +149,8 @@ class UserController extends Controller
                     'um_user_id'=>$user_id
                 ]);
             DB::commit();
+
+            
                 
             return redirect("/login");
         } catch (\Exception $e) {
@@ -158,4 +160,97 @@ class UserController extends Controller
             return redirect()->back()->withInput();
         }
     }
+
+
+    //user update
+    public function user_update_profile(Request $request)
+    {
+        try {
+            $validator=Validator::make($request->all(), [
+                'firstname' => 'required',
+                'company_email' => 'sometimes|required|email',
+               ],[
+                'company_email.required' => ':attribute field is required.',
+                'firstname.required' => ':attribute field is required.',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $userSession = $request->session()->get(config("global.session_user_obj"));
+
+              
+            DB::beginTransaction();
+                $user_id=$userSession->id;
+
+                $user = UmUser::find($user_id);
+                $user->firstname=$request->get('firstname');
+                $user->lastname=$request->get('lastname');
+                $user->save();
+ 
+                if($userSession->um_user_role_id===config("global.user_role_vendor")){//check is vendor
+                    $vendor = VmVendor::find($user_id);
+                    $vendor->company_name=$request->get('company_name');
+                    $vendor->address=$request->get('company_address');
+                    $vendor->contact_email=$request->get('company_email');
+                    $vendor->contact_mobile=$request->get('company_contact_mobile');
+                    $vendor->contact_office=$request->get('company_contact_office');
+                    $vendor->save();
+                }
+                DB::commit();
+                $request->session()->put(config("global.session_user_obj"),$user);
+            
+                session()->flash('message',"Profile updated successfully");
+                session()->flash('flash_message_type', config("global.flash_success"));
+            return redirect()->back()->withInput();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back()->withInput();
+        }
+    }
+
+    //user change password
+    public function user_change_password(Request $request)
+    {
+        try {
+            $userSession = $request->session()->get(config("global.session_user_obj"));
+            $user_id=$userSession->id;
+            $user_login_object = UmUserLogin::find($user_id);
+
+            $validator=Validator::make($request->all(), [
+                'old_password' => ['required',function($attribute,$value,$fail){
+                    if (Hash::check($value, $user_login_object->password)) {
+                        $fail('Old password is not matching');
+                    }
+                }],
+                'password' => 'required|confirmed',
+               ],[
+                'old_password.required' => ':attribute field is required.',
+                'password.required' => ':attribute field is required.',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            
+            $user_login_object->password=Hash::make($request->get('password'));
+            $user_login_object->save();
+        
+            $request->session()->flush();
+            return redirect("/login");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back()->withInput();
+        }
+    }
+
+
+
+
 }

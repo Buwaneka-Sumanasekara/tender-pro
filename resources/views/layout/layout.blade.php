@@ -59,8 +59,8 @@
                     @else
                        <li><i class="fa fa-user-circle-o fa-2x"></i> </li>
                        <li>
-                          <span class="m-r-sm text-muted welcome-message"> &nbsp;<strong>{{ session()->get('logged_user_object')->firstname }} {{ session()->get('logged_user_object')->lastname }}</strong>
-                          @if(session()->get('logged_user_object')->um_user_role_id === config("global.user_role_admin"))
+                          <span class="m-r-sm text-muted welcome-message"> &nbsp;<strong>{{ session()->get(config("global.session_user_obj"))->firstname }} {{ session()->get(config("global.session_user_obj"))->lastname }}</strong>
+                          @if(session()->get(config("global.session_user_obj"))->um_user_role_id === config("global.user_role_admin"))
                           (Admin)
                           @endif
                         </span>
