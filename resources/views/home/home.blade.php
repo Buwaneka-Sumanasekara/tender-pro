@@ -17,20 +17,49 @@
                         </div>
                 </div>
             @endforeach
-           
+
             </div>
-        </div>  
+        </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-        @foreach ($tenders as $tender)
-            <p>{{ $tender->id }} {{ $tender->daysRemain() }} </p>
-        @endforeach
-        </div>
-    </div>  
 
-    
+            <div class="table-responsive" >
+
+                <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>Tender ID</th>
+                            <th></th>
+
+                            <th>Title</th>
+                            <th>End Date</th>
+                            <th>Remain Days</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach ($tenders as $tender)
+                        <tr>
+
+                            <td>{{ $tender->id }}</td>
+                            <td class="text-center "><i class="text-navy {{ $tender->category->icon }}"></i></td>
+
+                           <td>{{ $tender->title }}</td>
+                           <td>{{ \Carbon\Carbon::parse($tender->end_date)->format('j F, Y') }}</td>
+                           <td>{{ $tender->daysRemain() }}</td>
+                           <td><a href="">View</a></td>
+                        </tr>
+
+                      @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
 
 
 <script src="js/plugins/slick/slick.min.js"></script>
@@ -39,18 +68,32 @@
 <script>
 
 $(document).ready(function(){
+
+
+
     function createSlick(){
-        
+
         $('.slider_my').not('.slick-initialized').slick({
             slidesToShow: 5,
             slidesToScroll: 5,
         });
     }
-      
+
+    function createDataTable(){
+        $('.dataTables-example').DataTable({
+            pageLength: 10,
+            responsive: true
+        });
+    }
+
     createSlick();
+    createDataTable();
 
 //Now it will not throw error
 $(window).on( 'resize', createSlick);
+
+
+
 
 });
 
