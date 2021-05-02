@@ -1,13 +1,9 @@
-@extends('layout/layout')
+@extends('layout/main')
 
 @section('content')
-
-
-
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-10 offset-md-1">
             <div class="slider_my">
-
             @foreach ($categorries as $category)
                  <div class="widget lazur-bg mx-2 no-padding">
                         <div class="row p-2">

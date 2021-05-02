@@ -1,47 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    {{-- <title>{{ config('app.name', 'Tender Pro') }}</title> --}}
-    <title>Tender Pro</title>
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-
-    <link href="css/plugins/slick/slick.css" rel="stylesheet">
-    <link href="css/plugins/slick/slick-theme.css" rel="stylesheet">
-
-
-   <script src="js/jquery-3.1.1.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
-  <!-- <script src="js/popper.min.js"></script>-->
-    <!--<script src="js/bootstrap.min.js"></script> -->
-   <!-- <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>-->
-  
-
-
-
-   
-
-    </head>
-    <body>
-        <div class="container">
-         <div class="row">
-            <div class="col-lg-12">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0"> 
+<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0"> 
+                
+                <a href="/">
                 <div class="navbar-header py-2 px-2">
                     <img alt="LOGO" class="" src="images/logo-only.png" style="width:50px;height:55px" />
-                    <strong>Tender Pro</strong>
+                    <strong class="text-secondary">Tender Pro</strong>
                 </div>
+                </a>
                 
                    <ul class="nav navbar-top-links navbar-right">
                     @if(empty(session('logged_user_object')))  
@@ -80,30 +44,3 @@
                     </ul>
                 
                 </nav>
-
-                <hr>
-            </div>
-         </div>
-            
-                @yield('content')
-          
-        </div>
-     
-           
-
-       
-
-
-
-
-
-
-
-
-
-        
-
-</body>
-
-
-</html>

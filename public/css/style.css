@@ -1306,7 +1306,7 @@ h5 {
 
 .nav-header {
     padding: 33px 25px;
-    background-color: #4d3521;
+    background-color: #1872ab;
     /*background-image: url("patterns/header-profile.png");*/
 }
 
@@ -1822,7 +1822,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 
 .top-navigation .nav>li a:hover,
 .top-navigation .nav>li a:focus {
-    background: #fff;
+    
     color: #ff0000;
 }
 
@@ -10875,7 +10875,7 @@ body.rtls.top-navigation .footer.fixed {
 }
 
 .skin-1 .nav-header {
-    background-color: #0e9aef;
+    background-color: #1c84c6;
     /*background-image: url('patterns/header-profile-skin-1.png');*/
 }
 
@@ -11013,7 +11013,7 @@ body.skin-2 {
 }
 
 .skin-2 .nav-header {
-    background-color: #23c6c8;
+    background-color: #1c84c6;
     /*background-image: url('patterns/header-profile-skin-2.png');*/
 }
 
