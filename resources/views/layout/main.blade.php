@@ -20,13 +20,17 @@
     <link href="css/plugins/slick/slick.css" rel="stylesheet">
     <link href="css/plugins/slick/slick-theme.css" rel="stylesheet">
 
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+
 
    <script src="js/jquery-3.1.1.min.js"></script>
    <script src="js/bootstrap.min.js"></script>
-  <!-- <script src="js/popper.min.js"></script>-->
-    <!--<script src="js/bootstrap.min.js"></script> -->
-   <!-- <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>-->
-  
+
+
+   <script src="js/plugins/dataTables/datatables.min.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
+
+
     </head>
     <body>
     <div class="container">
@@ -37,10 +41,6 @@
          </div>
             @yield('content')
      </div>
-     
-           
-
-       
 
 
 
@@ -50,7 +50,11 @@
 
 
 
-        
+
+
+
+
+
 
 </body>
 
