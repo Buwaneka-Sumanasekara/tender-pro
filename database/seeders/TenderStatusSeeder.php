@@ -18,6 +18,7 @@ class TenderStatusSeeder extends Seeder
         $ar_tender_status=[
             ["id"=>0,"name"=>"removed"],
             ["id"=>1,"name"=>"active"],
+            ["id"=>2,"name"=>"draft"],
         ];
 
         foreach ($ar_tender_status as $tender_status) {

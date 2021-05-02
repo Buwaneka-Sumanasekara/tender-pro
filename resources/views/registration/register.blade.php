@@ -28,7 +28,7 @@
                 </div>
                     <div class="ibox">
                         <div class="ibox-content">
-                            <form class="m-t"  action="user/register" method="POST">
+                            <form class="m-t"  action="user-actions/register" method="POST">
                                 {{ csrf_field() }}
                                 @include('include.flash')
                                 @include('include.errors')

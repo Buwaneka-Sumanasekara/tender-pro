@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TenderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,18 +17,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[UserController::class, 'home']);
 
 /*==User Login / Registration===*/
-Route::post('/user/login', [UserController::class, 'user_login']);
-Route::get('/user/logout', [UserController::class, 'user_logout']);
-Route::post('/user/register', [UserController::class, 'user_registration']);
-Route::put('/profile/update', [UserController::class, 'user_update_profile']);
-Route::post('/profile/change-password', [UserController::class, 'user_change_password']);
+Route::post('/user-actions/login', [UserController::class, 'user_login']);
+Route::get('/user-actions/logout', [UserController::class, 'user_logout']);
+Route::post('/user-actions/register', [UserController::class, 'user_registration']);
+Route::put('/user-actions/profile/update', [UserController::class, 'user_update_profile']);
+Route::post('/user-actions/profile/change-password', [UserController::class, 'user_change_password']);
 
 Route::get('/login', function () {
     return view('login.login');
-});
+})->middleware('user.session.validate');
 
 Route::get('/register', function () {
     return view('registration.register');
-});
+})->middleware('user.session.validate');
 
 /*==END: User Login / Registration===*/
+Route::post('/tender-actions/create', [TenderController::class, 'createTender']);
+Route::put('/tender-actions/update', [TenderController::class, 'updateTender']);
+
+/*==Tender create/update/List===*/
+
+
+
+
+/*==Tender create/update/List===*/

@@ -16,7 +16,7 @@ class UserSessionValidate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session('logged_user_object') == null) {
+        if (session(config("global.session_user_obj")) == null) {
             return $next($request);
         } else {
             $redirect_value = $request->get("r");

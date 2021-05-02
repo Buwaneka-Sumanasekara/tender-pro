@@ -72,7 +72,7 @@
                             </a>
                         </li>   
                         <li>
-                            <a href="/user/logout" class="text-danger">
+                            <a href="/user-actions/logout" class="text-danger">
                                 <i class="fa fa-sign-out"></i>Log out
                             </a>
                         </li>
