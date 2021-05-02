@@ -17,29 +17,60 @@
 
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-  
+
     </head>
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-12">
                     @include('include.header')
                 </div>
             </div>
-            <div class="row"> 
-                <div class="col-md-2">
-                    <ul class="list-group">
-                        <li class="list-group-item">Dashboard</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
-                <div>
-                <div class="col-md-10">
+            <div class="row">
+                <div  class="col-3">
+                    <nav class="navbar-default navbar-static-side" role="navigation">
+                    <div class="sidebar-collapse">
+                        <ul class="nav metismenu" id="side-menu">
+                            <li class="nav-header" >
+                                <center>
+                                    <div> <i class="fa fa-desktop text-white fa-3x py-2" ></i></div>
+
+                                    @if(session()->get(config("global.session_user_obj"))->um_user_role_id === config("global.user_role_admin"))
+                                    <strong class="text-white">Admin Dashboard</strong>
+                                    @else
+                                    <strong class="text-white">My Account</strong>
+                                    @endif
+
+                                </center>
+                            </li>
+
+                            <?php
+                            $ar_per=json_decode(session()->get(config("global.session_permissions")),true);
+
+                            ?>
+
+                              @foreach ($ar_per as $permission)
+                              <li>
+                                <a href="/account/{{$permission["url_path"] }}"><i class="fa fa-folder-o"></i><span class="nav-label">{{$permission["tab_name"] }}</span></a>
+                              </li>
+                              @endforeach
+
+
+
+
+
+
+                        </ul>
+
+                    </div>
+                </nav>
+
+                </div>
+
+                <div class="col-9">
                     @yield('content')
                 </div>
-            </div>      
+            </div>
         </div>
     </body>
 </html>

@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-
-
 use App\Http\Controllers\Controller;
 use App\Http\Traits\UserTrait;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-
+use App\Models\TmTender;
+use App\Models\TmTenderCategory;
 use App\Models\UmUser;
 use App\Models\UmUserLogin;
 use App\Models\VmVendor;
-use App\Models\TmTenderCategory;
-use App\Models\TmTender;
-
 use Carbon\Carbon;
-
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -29,12 +22,10 @@ class UserController extends Controller
 
     public function show_home(Request $request)
     {
-        $categorries=TmTenderCategory::where('active', 1)->get();
-        $tenders=TmTender::where('tm_tender_status_id', 1)->where("end_date",'>',Carbon::now())->get();
-        return view('home.home',compact('categorries','tenders'));
+        $categorries = TmTenderCategory::where('active', 1)->get();
+        $tenders = TmTender::where('tm_tender_status_id', 1)->where("end_date", '>', Carbon::now())->get();
+        return view('home.home', compact('categorries', 'tenders'));
     }
-
-
 
     /*
      * Login function
@@ -42,18 +33,17 @@ class UserController extends Controller
     public function user_login(Request $request)
     {
         try {
-            
-           $validator=Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
-           ],[
-            'username.required' => ':attribute field is required.',
-            'password.required' => ':attribute field is required.'
-           ]);
-           if ($validator->fails()) {
-             return redirect()->back()->withErrors($validator)->withInput();
-           }
 
+            $validator = Validator::make($request->all(), [
+                'username' => 'required',
+                'password' => 'required',
+            ], [
+                'username.required' => ':attribute field is required.',
+                'password.required' => ':attribute field is required.',
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
 
             $username = $request->get('username');
             $password = $request->get('password');
@@ -67,7 +57,9 @@ class UserController extends Controller
                     if ($user_obj) {
                         if ($user_obj->um_user_status_id === config('global.user_status_active')) {
                             $user_permissions = $this->user_role_getUserRolePermissions($user_obj->um_user_role_id);
+
                             session([config("global.session_user_obj") => $user_obj, config("global.session_permissions") => json_encode($user_permissions)]);
+
                             return redirect('/');
                         } else {
                             throw new Exception("Your account has been blocked, Please contact System Admin");
@@ -92,21 +84,19 @@ class UserController extends Controller
         return redirect('/');
     }
 
-
     /*
      * Registration function
      */
     public function user_registration(Request $request)
     {
         try {
-            
 
-            $validator=Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'firstname' => 'required',
                 'company_email' => 'required|email',
                 'username' => 'required|email|unique:um_user_login,username',
                 'password' => 'required|confirmed',
-               ],[
+            ], [
                 'firstname.required' => ':attribute field is required.',
                 'username.required' => ':attribute field is required.',
                 'password.required' => ':attribute field is required.',
@@ -120,38 +110,35 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-              
             DB::beginTransaction();
-                $user_id=(UmUser::max('id')+1);
+            $user_id = (UmUser::max('id') + 1);
 
-                $user = UmUser::create([
-                    'id'=>$user_id,
-                    'firstname' => $request->get('firstname'),
-                    'lastname' => $request->get('lastname'),
-                    'um_user_status_id'=>config("global.user_status_active"),
-                    'um_user_role_id'=>config("global.user_role_vendor"),
-                ]);
-                
-                $user_login = UmUserLogin::create([
-                    'id'=>$user_id,
-                    'username' => $request->get('username'),
-                    'password' => Hash::make($request->get('password')),
-                    'um_user_id'=>$user_id
-                ]);
-                
-                $vendor = VmVendor::create([
-                    'id'=>$user_id,
-                    'company_name' => $request->get('company_name'),
-                    'address' => $request->get('company_address'),
-                    'contact_email' => $request->get('company_email'),
-                    'contact_mobile' => $request->get('company_contact_mobile'),
-                    'contact_office' => $request->get('company_contact_office'),
-                    'um_user_id'=>$user_id
-                ]);
+            $user = UmUser::create([
+                'id' => $user_id,
+                'firstname' => $request->get('firstname'),
+                'lastname' => $request->get('lastname'),
+                'um_user_status_id' => config("global.user_status_active"),
+                'um_user_role_id' => config("global.user_role_vendor"),
+            ]);
+
+            $user_login = UmUserLogin::create([
+                'id' => $user_id,
+                'username' => $request->get('username'),
+                'password' => Hash::make($request->get('password')),
+                'um_user_id' => $user_id,
+            ]);
+
+            $vendor = VmVendor::create([
+                'id' => $user_id,
+                'company_name' => $request->get('company_name'),
+                'address' => $request->get('company_address'),
+                'contact_email' => $request->get('company_email'),
+                'contact_mobile' => $request->get('company_contact_mobile'),
+                'contact_office' => $request->get('company_contact_office'),
+                'um_user_id' => $user_id,
+            ]);
             DB::commit();
 
-            
-                
             return redirect("/login");
         } catch (\Exception $e) {
             DB::rollBack();
@@ -161,15 +148,14 @@ class UserController extends Controller
         }
     }
 
-
     //user update
     public function user_update_profile(Request $request)
     {
         try {
-            $validator=Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'firstname' => 'required',
                 'company_email' => 'sometimes|required|email',
-               ],[
+            ], [
                 'company_email.required' => ':attribute field is required.',
                 'firstname.required' => ':attribute field is required.',
             ]);
@@ -180,29 +166,28 @@ class UserController extends Controller
 
             $userSession = $request->session()->get(config("global.session_user_obj"));
 
-              
             DB::beginTransaction();
-                $user_id=$userSession->id;
+            $user_id = $userSession->id;
 
-                $user = UmUser::find($user_id);
-                $user->firstname=$request->get('firstname');
-                $user->lastname=$request->get('lastname');
-                $user->save();
- 
-                if($userSession->um_user_role_id===config("global.user_role_vendor")){//check is vendor
-                    $vendor = VmVendor::find($user_id);
-                    $vendor->company_name=$request->get('company_name');
-                    $vendor->address=$request->get('company_address');
-                    $vendor->contact_email=$request->get('company_email');
-                    $vendor->contact_mobile=$request->get('company_contact_mobile');
-                    $vendor->contact_office=$request->get('company_contact_office');
-                    $vendor->save();
-                }
-                DB::commit();
-                $request->session()->put(config("global.session_user_obj"),$user);
-            
-                session()->flash('message',"Profile updated successfully");
-                session()->flash('flash_message_type', config("global.flash_success"));
+            $user = UmUser::find($user_id);
+            $user->firstname = $request->get('firstname');
+            $user->lastname = $request->get('lastname');
+            $user->save();
+
+            if ($userSession->um_user_role_id === config("global.user_role_vendor")) { //check is vendor
+                $vendor = VmVendor::find($user_id);
+                $vendor->company_name = $request->get('company_name');
+                $vendor->address = $request->get('company_address');
+                $vendor->contact_email = $request->get('company_email');
+                $vendor->contact_mobile = $request->get('company_contact_mobile');
+                $vendor->contact_office = $request->get('company_contact_office');
+                $vendor->save();
+            }
+            DB::commit();
+            $request->session()->put(config("global.session_user_obj"), $user);
+
+            session()->flash('message', "Profile updated successfully");
+            session()->flash('flash_message_type', config("global.flash_success"));
             return redirect()->back()->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -217,17 +202,17 @@ class UserController extends Controller
     {
         try {
             $userSession = $request->session()->get(config("global.session_user_obj"));
-            $user_id=$userSession->id;
+            $user_id = $userSession->id;
             $user_login_object = UmUserLogin::find($user_id);
 
-            $validator=Validator::make($request->all(), [
-                'old_password' => ['required',function($attribute,$value,$fail){
+            $validator = Validator::make($request->all(), [
+                'old_password' => ['required', function ($attribute, $value, $fail) {
                     if (Hash::check($value, $user_login_object->password)) {
                         $fail('Old password is not matching');
                     }
                 }],
                 'password' => 'required|confirmed',
-               ],[
+            ], [
                 'old_password.required' => ':attribute field is required.',
                 'password.required' => ':attribute field is required.',
             ]);
@@ -236,10 +221,9 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            
-            $user_login_object->password=Hash::make($request->get('password'));
+            $user_login_object->password = Hash::make($request->get('password'));
             $user_login_object->save();
-        
+
             $request->session()->flush();
             return redirect("/login");
         } catch (\Exception $e) {
@@ -249,8 +233,5 @@ class UserController extends Controller
             return redirect()->back()->withInput();
         }
     }
-
-
-
 
 }
