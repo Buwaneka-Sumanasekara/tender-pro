@@ -12,23 +12,26 @@
     {{-- <title>{{ config('app.name', 'Tender Pro') }}</title> --}}
     <title>Tender Pro</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="css/plugins/slick/slick.css" rel="stylesheet">
-    <link href="css/plugins/slick/slick-theme.css" rel="stylesheet">
-
-    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/animate.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{ asset('font-awesome/css/font-awesome.css')}}" rel="stylesheet">
 
 
-   <script src="js/jquery-3.1.1.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
+
+    <link href="{{ asset('css/plugins/slick/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/plugins/slick/slick-theme.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
 
 
-   <script src="js/plugins/dataTables/datatables.min.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('js/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+
+
+   <script src="{{ asset('js/plugins/dataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/dataTables/dataTables.bootstrap4.min.js') }}"></script>
 
 
     </head>
