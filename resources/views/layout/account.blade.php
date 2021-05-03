@@ -10,13 +10,17 @@
         {{-- <title>{{ config('app.name', 'Tender Pro') }}</title> --}}
         <title>Tender Pro</title>
 
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/animate.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
-        <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/animate.css')}}" rel="stylesheet">
+        <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+        <link href="{{ asset('font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+        <link href="{{ asset('css/plugins/datapicker/datepicker3.css')}}" rel="stylesheet">
+        <link href="{{ asset('css/plugins/select2/select2.min.css')}}" rel="stylesheet">
 
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="{{ asset('js/jquery-3.1.1.min.js')}}" ></script>
+        <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js')}}"></script>
+        <script src="{{ asset('js/plugins/select2/select2.full.min.js')}}"></script>
 
     </head>
     <body>

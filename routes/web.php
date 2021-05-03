@@ -1,8 +1,7 @@
 <?php
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\TenderController;
 use App\Http\Controllers\AccountController;
-
+use App\Http\Controllers\TenderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/',[UserController::class, 'show_home']);
+Route::get('/', [UserController::class, 'show_home']);
 
 /*==User Login / Registration===*/
 Route::post('/user-actions/login', [UserController::class, 'user_login']);
@@ -33,9 +32,13 @@ Route::get('/register', function () {
     return view('registration.register');
 })->middleware('user.session.validate');
 
-
 /*=== Account   ===*/
 Route::get('/account', [AccountController::class, 'account_show_dashboard']);
+
+Route::prefix('account')->group(function () {
+    Route::get('/', [AccountController::class, 'account_show_dashboard']);
+    Route::get('/tender/new', [TenderController::class, 'account_show_create_tender']);
+});
 
 /*==Tender create/update/List===*/
 Route::post('/tender-actions/create', [TenderController::class, 'createTender']);
