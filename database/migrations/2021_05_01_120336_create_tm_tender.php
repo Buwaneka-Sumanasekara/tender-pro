@@ -31,6 +31,8 @@ class CreateTmTender extends Migration
 
             $table->string('location',100);
 
+            $table->string('attachment_path',100)->default("");
+
             $table->bigInteger('tm_tender_category_id');
             $table->foreign('tm_tender_category_id')->references('id')->on('tm_tender_category');
 

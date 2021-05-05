@@ -35,6 +35,12 @@ http://webapplayers.com/inspinia_admin-v2.9.4/form_basic.html
 php artisan migrate:refresh --seed
 ```
 
+one time command
+```
+php artisan storage:link
+```
+
+
 ## License
 
  [MIT license](https://opensource.org/licenses/MIT).

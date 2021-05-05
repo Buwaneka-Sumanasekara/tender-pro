@@ -5,17 +5,29 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class TmTender extends Model
 {
     use HasFactory;
     protected $table = 'tm_tender';
-    protected $fillable = ['id', 'title', 'description', 'start_date', 'end_date', 'tm_tender_status_id', 'crby', 'deposit', 'estimate_cost', 'location', 'tm_tender_category_id'];
+    protected $fillable = ['id', 'title', 'description', 'start_date', 'end_date', 'tm_tender_status_id', 'crby', 'deposit', 'estimate_cost', 'location', 'tm_tender_category_id','attachment_path'];
     public $incrementing = false;
 
     public function category()
     {
         return $this->belongsTo(TmTenderCategory::class, 'tm_tender_category_id', 'id');
+    }
+
+
+    public function getPDFFilePath()
+    {
+        $url = Storage::url($this->attachment_path);
+        return ($url);
+    }
+    public function hasPDF()
+    {
+        return Storage::exists($this->attachment_path);
     }
 
     public function isExpired()

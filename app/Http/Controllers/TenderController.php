@@ -23,6 +23,16 @@ class TenderController extends Controller
         return view('account.tenders_create.index', compact('tenderCategories', 'tenderStatus'));
     }
 
+    public function account_show_categorries(Request $request)
+    {
+        $tenderCategories = TmTenderCategory::where('active', 1)->get();
+        return view('account.tender_categorries.index', compact('tenderCategories'));
+    }
+    public function account_show_create_category(Request $request)
+    {
+        $tenderCategories = TmTenderCategory::where('active', 1)->get();
+        return view('account.tender_category_create.index');
+    }
     /*
      * Tender create function
      */
@@ -42,6 +52,7 @@ class TenderController extends Controller
                 'deposit' => 'required|numeric',
                 'estimate_cost' => 'required|numeric',
                 'location' => 'sometimes',
+                'attachment' => 'sometimes|file|mimetypes:application/pdf',
                 'category_id' => 'required|exists:tm_tender_category,id',
             ], [
                 'title.required' => ':attribute is required.',
@@ -53,6 +64,7 @@ class TenderController extends Controller
                 'location.sometimes' => 'Location cannot be empty',
                 'category_id.required' => 'Category is required.',
                 'tender_status.exists' => 'should be valid status',
+                'attachment.file' => 'File not uploaded correctly',
                 'category_id.exists' => 'category not avilable',
             ]);
             if ($validator->fails()) {
@@ -67,6 +79,13 @@ class TenderController extends Controller
             $start_date = Carbon::parse($request->get('start_date'));
             $end_date = Carbon::parse($request->get('end_date'));
 
+            $attachment_path="";
+            if ($request->hasFile('attachment')) {
+                $extension = $request->file('attachment')->extension();
+                $file_name=$tenderId.".".$extension;
+                $attachment_path = $request->attachment->storeAs('public/upload_files', $file_name);
+            }
+
             $tender = TmTender::create([
                 'id' => $tenderId,
                 'title' => $request->get('title'),
@@ -79,6 +98,8 @@ class TenderController extends Controller
                 'estimate_cost' => $request->get('estimate_cost'),
                 'location' => $request->get('location'),
                 'tm_tender_category_id' => $request->get('category_id'),
+                'attachment_path'=>$attachment_path,
+                
             ]);
 
             DB::commit();
@@ -116,6 +137,8 @@ class TenderController extends Controller
                 'estimate_cost' => 'required|numeric',
                 'location' => 'sometimes',
                 'tender_category_id' => 'required|exists:tm_tender_category,id',
+                'attachment' => 'sometimes|file|mimetypes:application/pdf',
+                'has_attachment' => 'boolean',
             ], [
                 'title.required' => ':attribute is required.',
                 'description.required' => ':attribute  is required.',
@@ -127,12 +150,23 @@ class TenderController extends Controller
                 'tender_category_id.required' => 'Category is required.',
                 'tender_status_id.exists' => 'should be valid status',
                 'tm_tender_category.exists' => 'category not avilable',
+                'attachment.file' => 'File not uploaded correctly',
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
             DB::beginTransaction();
+
+
+            $hasAttachment=$request->get("has_attachment");
+            $attachment_path="";
+            if ($hasAttachment && $request->hasFile('attachment')) {
+                $extension = $request->file('attachment')->extension();
+                $file_name=$tenderId.".".$extension;
+                $attachment_path = $request->attachment->storeAs('upload_files', $file_name);
+            }
+
 
             $tender = TmTender::find($request->get("id"));
 
@@ -153,6 +187,14 @@ class TenderController extends Controller
             $tender->location = $request->get('location');
             $tender->tm_tender_category_id = $request->get('category_id');
 
+            if($hasAttachment){
+                if($attachment_path!==""){
+                    $tender->attachment_path = $attachment_path;  
+                } 
+            }else{
+                $tender->attachment_path="";
+            }
+
             $tender->save();
 
             DB::commit();
@@ -168,4 +210,72 @@ class TenderController extends Controller
             return redirect()->back();
         }
     }
+
+     /*
+     * Tender category create 
+     */
+    public function createTenderCategory(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'icon' => 'required',
+            ], [
+                'name.required' => ':attribute is required.',
+                'icon.required' => ':attribute  is required.',
+            ]);
+
+            DB::beginTransaction();
+
+            $maxId = TmTenderCategory::max("id");
+
+            $catId=($maxId+1);
+
+            $tenderCat = TmTenderCategory::create([
+                'id' => $catId,
+                'name' => $request->get('name'),
+                'sym'=>"CAT_".$catId,
+                'active'=>1,
+                'icon'=>'fa '.$request->get('icon')
+            ]);
+
+            DB::commit();
+
+            session()->flash('message', "successfully saved");
+            session()->flash('flash_message_type', config("global.flash_success"));
+            
+
+            return redirect()->action([TenderController::class, 'account_show_categorries']);
+
+        }  catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back();
+        }
+    }
+
+    public function deleteTenderCategory(Request $request,$id)
+    {
+        try {
+            $tenderCategory = TmTenderCategory::find($id);
+
+            if(count($tenderCategory->tenders()->get())>0){
+                throw new Exception("has attached tenders");
+            }else{
+                $tenderCategory->delete();
+            }
+            session()->flash('message', "Deleted category successfully");
+            session()->flash('flash_message_type', config("global.flash_success"));
+            return redirect()->back();
+        } catch (\Exception $e) {
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back();
+        }
+    }
+
+
+
+
 }

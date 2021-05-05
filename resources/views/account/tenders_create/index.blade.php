@@ -10,7 +10,7 @@
 
         </div>
         <div class="ibox-content">
-            <form action="/tender-actions/create" method="POST">
+            <form action="/tender-actions/create" method="POST" enctype="multipart/form-data" >
                 {{ csrf_field() }}
                 @include('include.flash')
                 @include('include.errors')
@@ -53,6 +53,16 @@
             <div class="form-group row"><label class="col-2 col-form-label">Location :</label>
                 <div class="col-10">
                      <input type="text"  class="form-control" name="location" value="{{old('location')}}">
+                 </div>
+            </div>
+            <div class="form-group row"><label class="col-2 col-form-label">File :</label>
+                <div class="col-10 input-group">
+            
+     <div class="custom-file">
+         <input id="inputGroupFile01" name="attachment" type="file" class="custom-file-input" accept="application/pdf">
+         <label class="custom-file-label" for="inputGroupFile01" >Choose file</label>
+     </div>
+
                  </div>
             </div>
             <div class="form-group row"><label class="col-2 col-form-label">Category :</label>
@@ -99,6 +109,10 @@
             calendarWeeks: true,
             autoclose: true
         });
+
+        $(document).ready(function(){
+            bsCustomFileInput.init()
+        })
     </script>
 
 @endsection

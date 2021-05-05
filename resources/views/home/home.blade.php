@@ -43,7 +43,7 @@
                        @foreach ($tenders as $tender)
                         <tr>
 
-                            <td>{{ $tender->id }}</td>
+                            <td>{{ $tender->id }} {{ $tender->hasPDF()}}</td>
                             <td class="text-center "><i class="text-navy {{ $tender->category->icon }}"></i></td>
 
                            <td>{{ $tender->title }}</td>

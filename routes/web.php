@@ -37,9 +37,18 @@ Route::get('/account', [AccountController::class, 'account_show_dashboard']);
 
 Route::prefix('account')->group(function () {
     Route::get('/', [AccountController::class, 'account_show_dashboard']);
-    Route::get('/tender/new', [TenderController::class, 'account_show_create_tender']);
+    Route::prefix('tender')->group(function () {
+        Route::get('/new', [TenderController::class, 'account_show_create_tender']);
+        Route::prefix('categorries')->group(function () {
+            Route::get('/', [TenderController::class, 'account_show_categorries']);
+            Route::get('/new', [TenderController::class, 'account_show_create_category']);
+        });
+       
+    });
 });
 
 /*==Tender create/update/List===*/
 Route::post('/tender-actions/create', [TenderController::class, 'createTender']);
 Route::put('/tender-actions/update', [TenderController::class, 'updateTender']);
+Route::post('/tender-actions/category/create', [TenderController::class, 'createTenderCategory']);
+Route::get('/tender-actions/category/delete/{id}', [TenderController::class, 'deleteTenderCategory']);

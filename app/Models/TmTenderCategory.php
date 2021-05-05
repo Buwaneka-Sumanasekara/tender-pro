@@ -22,6 +22,7 @@ class TmTenderCategory extends Model
         return $this->hasMany(TmTender::class,'tm_tender_category_id','id')->where('tm_tender_status_id', 1)->where('end_date','>',Carbon::now());
     }
 
+
     
 
 }
