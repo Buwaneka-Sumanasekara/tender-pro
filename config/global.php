@@ -17,7 +17,7 @@ return [
 
      //tender status
      'tender_removed'=>0,
-     'tender_active'=>1,
+     'tender_publish'=>1,
      'tender_draft'=>2,
 
      //session attributes

@@ -35,7 +35,7 @@ class TenderSeeder extends Seeder
 
             $tenderId=$this->common_generate_next_tender_no($maxId);
 
-            $tender=["id"=>$tenderId,"title"=>"Sample Tender".$i,"description"=>"This is sample description","start_date"=>$start->format('Y-m-d 00:00:00'),"end_date"=>$end->format('Y-m-d 23:59:59'),"tm_tender_status_id"=>config("global.tender_active"),"crby"=>0,"location"=>"Test Location","tm_tender_category_id"=>rand(1,8),"deposit"=>5000,"estimate_cost"=>rand(50000,100000)];
+            $tender=["id"=>$tenderId,"title"=>"Sample Tender".$i,"description"=>"This is sample description","start_date"=>$start->format('Y-m-d 00:00:00'),"end_date"=>$end->format('Y-m-d 23:59:59'),"tm_tender_status_id"=>config("global.tender_publish"),"crby"=>0,"location"=>"Test Location","tm_tender_category_id"=>rand(1,8),"deposit"=>5000,"estimate_cost"=>rand(50000,100000)];
             
             TmTender::updateOrCreate([
                 'id' => $tender["id"]

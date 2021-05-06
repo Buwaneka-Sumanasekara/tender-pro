@@ -16,9 +16,9 @@ class TenderStatusSeeder extends Seeder
     public function run()
     {
         $ar_tender_status=[
-            ["id"=>0,"name"=>"removed"],
-            ["id"=>1,"name"=>"active"],
-            ["id"=>2,"name"=>"draft"],
+            ["id"=>0,"name"=>"Removed"],
+            ["id"=>1,"name"=>"Published"],
+            ["id"=>2,"name"=>"Draft"],
         ];
 
         foreach ($ar_tender_status as $tender_status) {
