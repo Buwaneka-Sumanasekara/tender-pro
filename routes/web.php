@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [UserController::class, 'show_home']);
+Route::get('/tenders/view/{tenderId}', [TenderController::class, 'account_show_tenders']);
 
 /*==User Login / Registration===*/
 Route::post('/user-actions/login', [UserController::class, 'user_login']);
