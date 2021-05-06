@@ -19,6 +19,7 @@
         <link href="{{ asset('css/plugins/dropzone/basic.css')}}" rel="stylesheet">
         <link href="{{ asset('css/plugins/dropzone/dropzone.css')}}" rel="stylesheet">
         <link href="{{ asset('css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/plugins/switchery/switchery.css') }}" rel="stylesheet">
 
         <script src="{{ asset('js/jquery-3.1.1.min.js')}}" ></script>
         <script src="{{ asset('js/bootstrap.min.js')}}"></script>
@@ -28,6 +29,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
         <script src="{{ asset('js/plugins/dataTables/datatables.min.js') }}"></script>
         <script src="{{ asset('js/plugins/dataTables/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
 
     </head>
     <body>

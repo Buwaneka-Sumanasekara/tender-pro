@@ -49,7 +49,7 @@
                            <td>{{ $tender->title }}</td>
                            <td>{{ \Carbon\Carbon::parse($tender->end_date)->format('j F, Y') }}</td>
                            <td>{{ $tender->daysRemain() }}</td>
-                           <td><a href="">View</a></td>
+                           <td><a href="{{url('/tenders/view',$tender->id)}}">View</a></td>
                         </tr>
 
                       @endforeach
