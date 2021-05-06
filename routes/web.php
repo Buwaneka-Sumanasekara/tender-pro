@@ -43,12 +43,17 @@ Route::prefix('account')->group(function () {
             Route::get('/', [TenderController::class, 'account_show_categorries']);
             Route::get('/new', [TenderController::class, 'account_show_create_category']);
         });
-       
+        Route::prefix('drafts')->group(function () {
+            Route::get('/', [TenderController::class, 'account_show_draft_tenders']);
+            Route::get('/edit/{tenderId}', [TenderController::class, 'account_show_edit_draft_tenders']);
+
+        });
+
     });
 });
 
 /*==Tender create/update/List===*/
 Route::post('/tender-actions/create', [TenderController::class, 'createTender']);
-Route::put('/tender-actions/update', [TenderController::class, 'updateTender']);
+Route::post('/tender-actions/update', [TenderController::class, 'updateTender']);
 Route::post('/tender-actions/category/create', [TenderController::class, 'createTenderCategory']);
 Route::get('/tender-actions/category/delete/{id}', [TenderController::class, 'deleteTenderCategory']);

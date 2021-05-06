@@ -11,7 +11,7 @@ class TmTender extends Model
 {
     use HasFactory;
     protected $table = 'tm_tender';
-    protected $fillable = ['id', 'title', 'description', 'start_date', 'end_date', 'tm_tender_status_id', 'crby', 'deposit', 'estimate_cost', 'location', 'tm_tender_category_id','attachment_path'];
+    protected $fillable = ['id', 'title', 'description', 'start_date', 'end_date', 'tm_tender_status_id', 'crby', 'deposit', 'estimate_cost', 'location', 'tm_tender_category_id', 'attachment_path'];
     public $incrementing = false;
 
     public function category()
@@ -19,15 +19,20 @@ class TmTender extends Model
         return $this->belongsTo(TmTenderCategory::class, 'tm_tender_category_id', 'id');
     }
 
-
-    public function getPDFFilePath()
+    public function getPDFFileURL()
     {
-        $url = Storage::url($this->attachment_path);
-        return ($url);
+        // $url = Storage::url($this->attachment_path);
+        // return ($url);
+        return asset('storage/' . $this->attachment_path);
     }
     public function hasPDF()
     {
-        return Storage::exists($this->attachment_path);
+        if ($this->attachment_path !== "") {
+            return Storage::exists($this->attachment_path);
+        } else {
+            return false;
+        }
+
     }
 
     public function isExpired()
