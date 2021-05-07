@@ -19,6 +19,11 @@ class TmTender extends Model
         return $this->belongsTo(TmTenderCategory::class, 'tm_tender_category_id', 'id');
     }
 
+    public function offers()
+    {
+        return $this->hasMany(OmOffer::class,'tm_tender_id','id');
+    }
+
     public function getPDFFileURL()
     {
         // $url = Storage::url($this->attachment_path);
