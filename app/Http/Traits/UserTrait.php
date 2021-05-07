@@ -16,4 +16,15 @@ trait UserTrait
         return $permissions;
     }
 
+    public function user_role_isPermissionAvilable($permissions, $perid)
+    {
+        $isAvilable = false;
+        foreach ($permissions as $key => $value) {
+            if ($value->id == $perid) {
+                $isAvilable = true;
+                break;
+            }
+        }
+        return $isAvilable;
+    }
 }

@@ -22,8 +22,12 @@ return [
 
      //session attributes
      'session_user_obj'=>"logged_user_object",
-     'session_permissions'=>"permissions"
+     'session_permissions'=>"permissions",
 
+     //offer status
+     'offer_status_pending'=>0,
+     'offer_status_approved'=>1,
+     'offer_status_rejected'=>2,
 ];
 
 ?>
