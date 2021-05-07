@@ -43,6 +43,7 @@ Route::prefix('account')->group(function () {
         Route::prefix('categorries')->group(function () {
             Route::get('/', [TenderController::class, 'account_show_categorries']);
             Route::get('/new', [TenderController::class, 'account_show_create_category']);
+            Route::get('/edit/{categoryId}', [TenderController::class, 'account_show_edit_category']);
         });
         Route::prefix('drafts')->group(function () {
             Route::get('/', [TenderController::class, 'account_show_draft_tenders']);
@@ -59,3 +60,4 @@ Route::post('/tender-actions/create', [TenderController::class, 'createTender'])
 Route::post('/tender-actions/update', [TenderController::class, 'updateTender']);
 Route::post('/tender-actions/category/create', [TenderController::class, 'createTenderCategory']);
 Route::get('/tender-actions/category/delete/{id}', [TenderController::class, 'deleteTenderCategory']);
+Route::post('/tender-actions/category/update', [TenderController::class, 'updateTenderCategory']);
