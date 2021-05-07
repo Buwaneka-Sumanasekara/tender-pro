@@ -23,11 +23,13 @@
                     @else
                        <li><i class="fa fa-user-circle-o fa-2x"></i> </li>
                        <li>
+                         <a href="/profile">
                           <span class="m-r-sm text-muted welcome-message"> &nbsp;<strong>{{ session()->get(config("global.session_user_obj"))->firstname }} {{ session()->get(config("global.session_user_obj"))->lastname }}</strong>
                           @if(session()->get(config("global.session_user_obj"))->um_user_role_id === config("global.user_role_admin"))
                           (Admin)
                           @endif
-                        </span>
+                          </span>
+                        </a>
                         </li>
                         <li class="">
                             <a href="/account" class="text-success">
