@@ -43,9 +43,10 @@ Route::prefix('account')->group(function () {
             Route::get('/', [TenderController::class, 'account_show_categorries']);
             Route::get('/new', [TenderController::class, 'account_show_create_category']);
         });
-       
     });
+    Route::get('/user-management', [UserController::class, 'show_UserManagement']);
 });
+
 
 /*==Tender create/update/List===*/
 Route::post('/tender-actions/create', [TenderController::class, 'createTender']);
