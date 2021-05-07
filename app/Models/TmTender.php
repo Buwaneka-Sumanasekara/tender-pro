@@ -51,4 +51,14 @@ class TmTender extends Model
         }
     }
 
+    public function getStartDate()
+    {
+        $startDate = Carbon::parse($this->start_date);
+        return $startDate->format('M d Y');
+    }
+    public function getEndDate()
+    {
+        $startDate = Carbon::parse($this->end_date);
+        return $startDate->format('M d Y');
+    }
 }
