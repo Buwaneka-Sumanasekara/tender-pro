@@ -63,6 +63,13 @@ class TenderController extends Controller
         $tenderStatus = TmTenderStatus::where('id', '<>', 0)->get();
         return view('account.edit_tender.index', compact('tenderDetails', 'tenderCategories', 'tenderStatus'));
     }
+    public function account_show_edit_category($categoryId)
+    {
+        $categoryDetails = TmTenderCategory::find($categoryId);
+        return view('account.tender_edit_categories.index', compact('categoryDetails'));
+
+    }
+
     /*
      * Tender create function
      */
@@ -301,6 +308,38 @@ class TenderController extends Controller
             session()->flash('flash_message_type', config("global.flash_success"));
             return redirect()->back();
         } catch (\Exception $e) {
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back();
+        }
+    }
+
+    public function updateTenderCategory(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'icon' => 'required',
+            ], [
+                'name.required' => ':attribute is required.',
+                'icon.required' => ':attribute  is required.',
+            ]);
+
+            DB::beginTransaction();
+
+            $tenderCategory = TmTenderCategory::find($request->get("id"));
+            $tenderCategory->name = $request->get('name');
+            $tenderCategory->icon = $request->get('icon');
+            $tenderCategory->save();
+            DB::commit();
+
+            session()->flash('message', "successfully saved");
+            session()->flash('flash_message_type', config("global.flash_success"));
+
+            return redirect()->action([TenderController::class, 'account_show_categorries']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
             session()->flash('message', $e->getMessage());
             session()->flash('flash_message_type', config("global.flash_error"));
             return redirect()->back();
