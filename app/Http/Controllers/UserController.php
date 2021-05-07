@@ -30,8 +30,16 @@ class UserController extends Controller
     public function show_UserManagement(Request $request)
     {
         $userSession = $request->session()->get(config("global.session_user_obj"));
-        $userList=UmUser::where('id','<>',$userSession->id);
+        $userList = UmUser::where('id', '<>', $userSession->id);
         return view('account.user_management.index', compact('userList'));
+    }
+    public function show_profile(Request $request)
+    {
+        $userSession = $request->session()->get(config("global.session_user_obj"));
+        $userData = UmUser::find($userSession->id);
+
+        return view('account.profile_update.index', compact('userData'));
+
     }
 
     /*
@@ -241,12 +249,12 @@ class UserController extends Controller
         }
     }
 
-
-    public function user_active_deactive(Request $request) {
+    public function user_active_deactive(Request $request)
+    {
         try {
-          
-        }catch (\Exception $e) {
- 
+
+        } catch (\Exception $e) {
+
             session()->flash('message', $e->getMessage());
             session()->flash('flash_message_type', config("global.flash_error"));
             return redirect()->back();

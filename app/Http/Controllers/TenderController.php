@@ -70,13 +70,6 @@ class TenderController extends Controller
 
     }
 
-    public function account_show_edit_category($categoryId)
-    {
-        $categoryDetails = TmTenderCategory::find($categoryId);
-        return view('account.tender_edit_categories.index', compact('categoryDetails'));
-
-    }
-
     public function account_show_tenders($tenderId)
     {
         $tenderDetails = TmTender::find($tenderId);
