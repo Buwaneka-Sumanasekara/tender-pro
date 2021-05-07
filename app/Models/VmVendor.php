@@ -15,4 +15,10 @@ class VmVendor extends Model
     protected $table = 'vm_vendor';
     protected $fillable = ['id','company_name','address','contact_email','contact_mobile','contact_office','um_user_id'];
     public $incrementing = false;
+
+    public function user()
+    {
+        return $this->hasOne(UmUser::class,"um_user_id","id");
+    }
+
 }

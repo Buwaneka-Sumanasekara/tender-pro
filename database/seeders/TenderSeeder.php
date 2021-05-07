@@ -10,6 +10,8 @@ use App\Http\Traits\CommonTrait;
 
 use App\Models\TmTender;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 
 class TenderSeeder extends Seeder
@@ -22,7 +24,8 @@ class TenderSeeder extends Seeder
      */
     public function run()
     {
-        TmTender::truncate();
+        
+    
         Storage::deleteDirectory("upload_files");
        
         for ($i = 0; $i < 30; $i++) {
