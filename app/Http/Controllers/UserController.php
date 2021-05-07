@@ -242,7 +242,7 @@ class UserController extends Controller
     }
 
 
-    public function user_getAll(Request $request) {
+    public function user_active_deactive(Request $request) {
         try {
           
         }catch (\Exception $e) {
