@@ -23,6 +23,7 @@ return [
      //session attributes
      'session_user_obj'=>"logged_user_object",
      'session_permissions'=>"permissions",
+     'session_permissions_tabs'=>"permissions_tabs",
 
      //offer status
      'offer_status_pending'=>0,

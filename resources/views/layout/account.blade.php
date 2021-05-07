@@ -58,7 +58,7 @@
                             </li>
 
                             <?php
-                            $ar_per=json_decode(session()->get(config("global.session_permissions")),true);
+                            $ar_per=json_decode(session()->get(config("global.session_permissions_tabs")),true);
 
                             ?>
 

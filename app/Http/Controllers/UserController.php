@@ -72,8 +72,8 @@ class UserController extends Controller
                     if ($user_obj) {
                         if ($user_obj->um_user_status_id === config('global.user_status_active')) {
                             $user_permissions = $this->user_role_getUserRolePermissions($user_obj->um_user_role_id);
-
-                            session([config("global.session_user_obj") => $user_obj, config("global.session_permissions") => json_encode($user_permissions)]);
+                            $user_permissions_tabs = $this->user_role_getUserRolePermissions_tabs($user_obj->um_user_role_id);
+                            session([config("global.session_user_obj") => $user_obj, config("global.session_permissions") => json_encode($user_permissions),config("global.session_permissions_tabs") => json_encode($user_permissions_tabs)]);
 
                             return redirect('/');
                         } else {

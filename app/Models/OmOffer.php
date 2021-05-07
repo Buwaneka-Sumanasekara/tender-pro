@@ -21,4 +21,8 @@ class OmOffer extends Model
     {
         return $this->belongsTo(TmTender::class, 'tm_tender_id', 'id');
     }
+
+    public function createdBy(){
+        return $this->belongsTo(VmVendor::class, 'vm_vendor_id', 'id');
+    }
 }

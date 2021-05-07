@@ -20,4 +20,19 @@ class VmVendor extends Model
         return $this->belongsTo(UmUser::class, "um_user_id", "id");
     }
 
+    public function allOffers()
+    {
+        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id");
+    }
+
+    public function approvedOffers()
+    {
+        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id")->where('om_offer_status_id',config("global.offer_status_approved"))
+    }
+
+    public function rejectedOffers()
+    {
+        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id")->where('om_offer_status_id',config("global.offer_status_rejected"))
+    }
+
 }

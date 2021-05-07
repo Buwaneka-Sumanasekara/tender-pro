@@ -16,7 +16,7 @@ class CheckUserPermission
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next,$perid)
     {
 
         if(session(config("global.session_permissions")) !== null){
@@ -29,6 +29,6 @@ class CheckUserPermission
         if($request->ajax()){
             return response()->json("Permission denied",401);
         }
-        return redirect('/');
+        return redirect()->back();
     }
 }

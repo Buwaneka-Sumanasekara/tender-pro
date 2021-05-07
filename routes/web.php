@@ -40,19 +40,19 @@ Route::get('/account', [AccountController::class, 'account_show_dashboard']);
 Route::prefix('account')->group(function () {
     Route::get('/', [AccountController::class, 'account_show_dashboard']);
     Route::prefix('tender')->group(function () {
-        Route::get('/new', [TenderController::class, 'account_show_create_tender']);
+        Route::get('/new', [TenderController::class, 'account_show_create_tender'])->middleware('user.permission.validate:1001');
         Route::prefix('categorries')->group(function () {
-            Route::get('/', [TenderController::class, 'account_show_categorries']);
-            Route::get('/new', [TenderController::class, 'account_show_create_category']);
-            Route::get('/edit/{categoryId}', [TenderController::class, 'account_show_edit_category']);
+            Route::get('/', [TenderController::class, 'account_show_categorries'])->middleware('user.permission.validate:1000');
+            Route::get('/new', [TenderController::class, 'account_show_create_category'])->middleware('user.permission.validate:1000');
+            Route::get('/edit/{categoryId}', [TenderController::class, 'account_show_edit_category'])->middleware('user.permission.validate:1000');
         });
         Route::prefix('drafts')->group(function () {
-            Route::get('/', [TenderController::class, 'account_show_draft_tenders']);
-            Route::get('/edit/{tenderId}', [TenderController::class, 'account_show_edit_draft_tenders']);
+            Route::get('/', [TenderController::class, 'account_show_draft_tenders'])->middleware('user.permission.validate:1001');
+            Route::get('/edit/{tenderId}', [TenderController::class, 'account_show_edit_draft_tenders'])->middleware('user.permission.validate:1001');
         });
 
     });
-    Route::get('/user-management', [UserController::class, 'show_UserManagement']);
+    Route::get('/user-management', [UserController::class, 'show_UserManagement'])->middleware('user.permission.validate:1004');
 });
 
 /*==Tender create/update/List===*/

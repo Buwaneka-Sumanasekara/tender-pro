@@ -28,6 +28,8 @@ class PermissionSeeder extends Seeder
             ["id"=>2000,"permission"=>"View all bids of user","tab_name"=>"View My Bids",'url_path'=>'my-account/bids','is_tab'=>1,'order_no'=>2000],
             ["id"=>2001,"permission"=>"View all approved of user","tab_name"=>"Approved Bids",'url_path'=>'my-account/approved-bids','is_tab'=>1,'order_no'=>2001],
             
+            ["id"=>2100,"permission"=>"Create Offer","tab_name"=>"Create Offer",'url_path'=>'','is_tab'=>0,'order_no'=>2100],
+            
    
         ];
 
