@@ -51,7 +51,7 @@ class OfferController extends Controller
     }
 
 
-    public function create_offer(Request $request){
+    public function createOffer(Request $request){
         try {
             $validator = Validator::make($request->all(), [
                 'bid_amount' => 'required|numeric',
@@ -102,5 +102,56 @@ class OfferController extends Controller
         }
     }
 
+
+    public function updateOffer(Request $request){
+        try {
+            $validator = Validator::make($request->all(), [
+                'bid_amount' => 'required|numeric',
+                'period'=>'required',
+                'tender_id'=>'required|exists:tm_tender,id',
+                'note'=>'sometimes'
+            ], [
+                'bid_amount.required' => 'Bid amount is required.',
+                'period.required' => 'Period should be defined',
+                'tender_id.required' => 'Tender Id is required.',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            DB::beginTransaction();
+
+
+        $userSession = $request->session()->get(config("global.session_user_obj"));
+        $user_id = $userSession->id;
+
+            $maxId = OmOffer::max("id");
+            $offerId = $this->common_generate_next_offer_no($maxId);
+
+            $offer = OmOffer::create([
+                'id' => $offerId,
+                'bid_amount' => $request->get('bid_amount'),
+                'period' => $request->get('period'),
+                'om_offer_status_id' => config("global.offer_status_pending"),
+                'vm_vendor_id' => $user_id,
+                'tm_tender_id'=>$request->get('tender_id'),
+                'note'=>$request->get('note')
+            ]);
+
+
+            DB::commit();
+
+            session()->flash('message', "successfully submited your Bid");
+            session()->flash('flash_message_type', config("global.flash_success"));
+            return redirect()->action([TenderController::class, 'account_show_tenders'],["tenderId"=>$request->get("tender_id")]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('message', $e->getMessage());
+            session()->flash('flash_message_type', config("global.flash_error"));
+            return redirect()->back();
+        }
+    }
 
 }

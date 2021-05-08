@@ -74,3 +74,6 @@ Route::prefix('offer')->group(function () {
     Route::get('/{OfferId}', [OfferController::class, 'show_offer']);
 });
 
+//Offer actions
+Route::post('/offer-actions/create', [TenderController::class, 'createOffer']);
+Route::post('/offer-actions/update', [TenderController::class, 'updateOffer']);
