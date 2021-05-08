@@ -44,7 +44,9 @@
                     <nav class="navbar-default navbar-static-side" role="navigation">
                     <div class="sidebar-collapse">
                         <ul class="nav metismenu" id="side-menu">
+                      
                             <li class="nav-header navy-bg" >
+                            <a href="{{ url('/account') }}">
                                 <center>
                                     <div> <i class="fa fa-desktop text-white fa-3x py-2" ></i></div>
 
@@ -55,8 +57,9 @@
                                     @endif
 
                                 </center>
+                                </a>
                             </li>
-
+                         
                             <?php
                             $ar_per=json_decode(session()->get(config("global.session_permissions_tabs")),true);
 
@@ -75,12 +78,6 @@
                             
                               </li>
                               @endforeach
-
-
-
-
-
-
                         </ul>
 
                     </div>
