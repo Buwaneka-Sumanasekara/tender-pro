@@ -1,8 +1,8 @@
 <?php
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\OfferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,7 +38,6 @@ Route::get('/register', function () {
 
 /*=== Account   ===*/
 
-
 Route::prefix('account')->group(function () {
     Route::get('/', [AccountController::class, 'account_show_dashboard']);
     Route::prefix('tender')->group(function () {
@@ -55,13 +54,16 @@ Route::prefix('account')->group(function () {
         Route::get('/bids', [TenderController::class, 'account_show_Offer_avilable_tenders'])->middleware('user.permission.validate:1001');
         Route::get('/bids/{tenderId}', [OfferController::class, 'account_show_tender_offers'])->middleware('user.permission.validate:1001');
     });
-    Route::get('/user-management', [UserController::class, 'show_UserManagement'])->middleware('user.permission.validate:1004');
-   
+    Route::prefix('user-management')->group(function () {
+        Route::get('/', [UserController::class, 'show_UserManagement'])->middleware('user.permission.validate:1004');
+        Route::get('/change-status/{userID}', [UserController::class, 'user_active_deactive'])->middleware('user.permission.validate:1004');
+
+    });
+
     Route::prefix('my-account')->group(function () {
         Route::get('/bids', [OfferController::class, 'account_show_all_my_offers'])->middleware('user.permission.validate:2000');
         Route::get('/approved-bids', [OfferController::class, 'account_show_all_my_approved_offers'])->middleware('user.permission.validate:2001');
-    }); 
-
+    });
 
 });
 
@@ -72,11 +74,7 @@ Route::post('/tender-actions/category/create', [TenderController::class, 'create
 Route::get('/tender-actions/category/delete/{id}', [TenderController::class, 'deleteTenderCategory']);
 Route::post('/tender-actions/category/update', [TenderController::class, 'updateTenderCategory']);
 
-
-
 /*===Offer ==*/
-
-
 
 Route::prefix('offer')->group(function () {
     Route::get('/create/{tenderId}', [OfferController::class, 'show_offer_create']);
@@ -84,5 +82,5 @@ Route::prefix('offer')->group(function () {
 });
 
 //Offer actions
-Route::post('/offer-actions/create', [OfferController::class, 'createOffer'])->middleware('user.permission.validate:1001');;
-Route::post('/offer-actions/update-state', [OfferController::class, 'updateOfferStatus'])->middleware('user.permission.validate:1001');;
+Route::post('/offer-actions/create', [OfferController::class, 'createOffer'])->middleware('user.permission.validate:1001');
+Route::post('/offer-actions/update-state', [OfferController::class, 'updateOfferStatus'])->middleware('user.permission.validate:1001');
