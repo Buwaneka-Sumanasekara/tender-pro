@@ -16,6 +16,9 @@ class AccountController extends Controller
      * Tender create function
      */
 
+
+    
+
     public function account_show_dashboard(Request $request){
 
         try {
@@ -77,21 +80,66 @@ class AccountController extends Controller
                         "data"=>$dataPoints,
                         "fill"=>false,
                         "tension"=>0.4,
-                        "borderColor"=>"red"
+                        "borderColor"=>"#ed5565"
                     ),
                     array(
                         "label"=>"Category wise Tenders",
                         "data"=>$dataPoints_Tenders,
                         "fill"=>false,
                         "tension"=>0.4,
-                        "borderColor"=>"blue"
+                        "borderColor"=>"#23c6c8"
                     )
                 );
 
 
                 return view('account.dashboard.admin',compact('tendersCount','offersApprovedCount','offersPendingCount','graph'));
             }else if($userSession->um_user_role_id==config("global.user_role_vendor")){
-                return view('account.dashboard.user');
+                $myoffers=OmOffer::where('vm_vendor_id',$userSession->id);
+                $MyoffersCount=count($myoffers->get());
+
+                $offers_approved=$myoffers->where('om_offer_status_id',config("global.offer_status_approved"));
+                $offersApprovedCount=count($offers_approved->get());
+
+                $offers_pending=$myoffers->where('om_offer_status_id',config("global.offer_status_pending"));
+                $offersPendingCount=count($offers_pending->get());
+
+                $offers_rejected=$myoffers->where('om_offer_status_id',config("global.offer_status_rejected"));
+                $offersRejectedCount=count($offers_rejected->get());
+
+
+                $Categorries=TmTenderCategory::pluck('name')->toArray();
+                $CategorriesAll=TmTenderCategory::get();
+
+                $dataPoints_Tenders=[];
+
+                foreach ($CategorriesAll as $Categorry){ 
+                    $tenders = TmTender::cursor()->filter(function ($tender) use ($Categorry) {
+                        if($tender->tm_tender_category_id===$Categorry->id){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    });
+          
+                    if($tenders->count()>0){
+                        array_push($dataPoints_Tenders,$tenders->count());
+                    }
+                                 
+                }
+
+                $graph= new stdClass;
+                $graph->labels=$Categorries;
+                $graph->datasets=array(
+                    array(
+                        "label"=>"Category wise Tenders",
+                        "data"=>$dataPoints_Tenders,
+                        "fill"=>false,
+                        "tension"=>0.4,
+                        "borderColor"=>"#23c6c8"
+                    )
+                );
+
+                return view('account.dashboard.user',compact('MyoffersCount','offersApprovedCount','offersPendingCount','offersRejectedCount','graph'));
             }else{
                 throw new Exception("Something wrong");
             }
