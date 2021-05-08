@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-12 py-2">
-            <h5 class="text-success ml-3">My Bids</h5>
+            <h5 class="text-success ml-3">Approved Bids</h5>
     </div>
 </div>
 <div class="row">

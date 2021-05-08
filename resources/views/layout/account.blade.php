@@ -44,7 +44,7 @@
                     <nav class="navbar-default navbar-static-side" role="navigation">
                     <div class="sidebar-collapse">
                         <ul class="nav metismenu" id="side-menu">
-                            <li class="nav-header" >
+                            <li class="nav-header navy-bg" >
                                 <center>
                                     <div> <i class="fa fa-desktop text-white fa-3x py-2" ></i></div>
 
@@ -63,8 +63,16 @@
                             ?>
 
                               @foreach ($ar_per as $permission)
-                              <li>
-                                <a href="/account/{{$permission["url_path"] }}"><i class="fa fa-folder-o"></i><span class="nav-label">{{$permission["tab_name"] }}</span></a>
+
+                                <?php $url= url('/account/'.$permission["url_path"]) ;
+                                
+                                       $url_current=url()->current();
+                                      // dd($url,$url_current);
+                                ?>
+
+                              <li class="{{ ($url === $url_current ? 'active':'') }}">
+                                <a href="/account/{{$permission['url_path'] }}"><i class="fa fa-folder-o"></i><span class="nav-label">{{$permission["tab_name"] }}</span></a>
+                            
                               </li>
                               @endforeach
 
