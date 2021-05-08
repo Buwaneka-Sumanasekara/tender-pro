@@ -60,8 +60,13 @@ class AccountController extends Controller
                         
                     });
           
-                    array_push($dataPoints,$offers->count());
-                    array_push($dataPoints_Tenders,$tenders->count());
+                    if($offers->count()>0){
+                        array_push($dataPoints,$offers->count());
+                    }if($tenders->count()>0){
+                        array_push($dataPoints_Tenders,$tenders->count());
+                    }
+                   
+                    
                 }
 
                 $graph= new stdClass;
