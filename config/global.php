@@ -30,6 +30,9 @@ return [
      'offer_status_pending'=>0,
      'offer_status_approved'=>1,
      'offer_status_rejected'=>2,
+
+     'offer_status_action_approve'=>"Approve",
+     'offer_status_action_reject'=>"Reject",
 ];
 
 ?>

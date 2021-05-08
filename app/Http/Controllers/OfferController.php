@@ -49,6 +49,42 @@ class OfferController extends Controller
             return abort(404);
         }
     }
+    public function account_show_tender_offers($tenderId)
+    {
+        $Tender = TmTender::find($tenderId);
+        if($Tender!==null){
+            $TenderOffers = OmOffer::where("tm_tender_id",$tenderId)->simplePaginate(1);
+        
+            return view('account.tenders_offers_compare.index', compact('Tender','TenderOffers'));
+        }else{
+            return abort(404);
+        }
+    }
+
+
+    public function account_show_all_my_offers(Request $request)
+    {
+        $userSession = $request->session()->get(config("global.session_user_obj"));
+        $user_id = $userSession->id;
+        $Offers = OmOffer::where("vm_vendor_id",$user_id)->get();
+        
+        return view('account.my_offers.index', compact('Offers'));
+        
+    }
+
+    public function account_show_all_my_approved_offers(Request $request)
+    {
+        $userSession = $request->session()->get(config("global.session_user_obj"));
+        $user_id = $userSession->id;
+        $Offers = OmOffer::where("vm_vendor_id",$user_id)->where("om_offer_status_id",config("global.offer_status_approved"))->get();
+        return view('account.my_offers.index', compact('Offers'));
+        
+    }
+
+
+
+
+
 
 
     public function createOffer(Request $request){
@@ -97,7 +133,7 @@ class OfferController extends Controller
 
             session()->flash('message', "successfully submited your Bid");
             session()->flash('flash_message_type', config("global.flash_success"));
-            return redirect()->action([TenderController::class, 'account_show_tenders'],["tenderId"=>$request->get("tender_id")]);
+            return redirect()->action([TenderController::class, 'account_show_tender'],["tenderId"=>$request->get("tender_id")]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -108,17 +144,16 @@ class OfferController extends Controller
     }
 
 
-    public function updateOffer(Request $request){
+    public function updateOfferStatus(Request $request){
         try {
             $validator = Validator::make($request->all(), [
-                'bid_amount' => 'required|numeric',
-                'period'=>'required',
                 'tender_id'=>'required|exists:tm_tender,id',
-                'note'=>'sometimes'
+                'offer_id'=>'required|exists:om_offer,id',
+                'action'=>'required',
             ], [
-                'bid_amount.required' => 'Bid amount is required.',
-                'period.required' => 'Period should be defined',
                 'tender_id.required' => 'Tender Id is required.',
+                'offer_id.required' => 'Offer Id is required.',
+                'action.required' => 'action is required.',
             ]);
 
             if ($validator->fails()) {
@@ -127,29 +162,29 @@ class OfferController extends Controller
 
             DB::beginTransaction();
 
+            $offer = OmOffer::where("id",$request->get("offer_id"))->where("tm_tender_id",$request->get("tender_id"))->first();
+            if($offer!==null){
+                if($request->get("action")===config("global.offer_status_action_approve")){
+                    $offer->om_offer_status_id=config("global.offer_status_approved");
+                }else if($request->get("action")===config("global.offer_status_action_reject")){
+                    $offer->om_offer_status_id=config("global.offer_status_rejected");
+                }else{
+                    throw new Exception("Can`t find valid action");
+                }
+                $offer->save();
 
-        $userSession = $request->session()->get(config("global.session_user_obj"));
-        $user_id = $userSession->id;
+                DB::commit();
 
-            $maxId = OmOffer::max("id");
-            $offerId = $this->common_generate_next_offer_no($maxId);
+                session()->flash('message', "successfully updated the status");
+                session()->flash('flash_message_type', config("global.flash_success"));
+            }else{
+                throw new Exception("Offer invalid");
+            }
+           
+           
 
-            $offer = OmOffer::create([
-                'id' => $offerId,
-                'bid_amount' => $request->get('bid_amount'),
-                'period' => $request->get('period'),
-                'om_offer_status_id' => config("global.offer_status_pending"),
-                'vm_vendor_id' => $user_id,
-                'tm_tender_id'=>$request->get('tender_id'),
-                'note'=>$request->get('note')
-            ]);
-
-
-            DB::commit();
-
-            session()->flash('message', "successfully submited your Bid");
-            session()->flash('flash_message_type', config("global.flash_success"));
-            return redirect()->action([TenderController::class, 'account_show_tenders'],["tenderId"=>$request->get("tender_id")]);
+            
+            return redirect()->back();
 
         } catch (\Exception $e) {
             DB::rollBack();

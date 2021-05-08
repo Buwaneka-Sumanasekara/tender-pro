@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserController::class, 'show_home']);
 Route::get('/profile', [UserController::class, 'show_profile']);
-Route::get('/tenders/{tenderId}', [TenderController::class, 'account_show_tenders']);
+Route::get('/tenders/{tenderId}', [TenderController::class, 'account_show_tender']);
 
 /*==User Login / Registration===*/
 Route::post('/user-actions/login', [UserController::class, 'user_login']);
@@ -36,7 +36,7 @@ Route::get('/register', function () {
 })->middleware('user.session.validate');
 
 /*=== Account   ===*/
-Route::get('/account', [AccountController::class, 'account_show_dashboard']);
+
 
 Route::prefix('account')->group(function () {
     Route::get('/', [AccountController::class, 'account_show_dashboard']);
@@ -51,9 +51,17 @@ Route::prefix('account')->group(function () {
             Route::get('/', [TenderController::class, 'account_show_draft_tenders'])->middleware('user.permission.validate:1001');
             Route::get('/edit/{tenderId}', [TenderController::class, 'account_show_edit_draft_tenders'])->middleware('user.permission.validate:1001');
         });
-
+        Route::get('/bids', [TenderController::class, 'account_show_Offer_avilable_tenders'])->middleware('user.permission.validate:1001');
+        Route::get('/bids/{tenderId}', [OfferController::class, 'account_show_tender_offers'])->middleware('user.permission.validate:1001');
     });
     Route::get('/user-management', [UserController::class, 'show_UserManagement'])->middleware('user.permission.validate:1004');
+   
+    Route::prefix('my-account')->group(function () {
+        Route::get('/bids', [OfferController::class, 'account_show_all_my_offers'])->middleware('user.permission.validate:2000');
+        Route::get('/approved-bids', [OfferController::class, 'account_show_all_my_approved_offers'])->middleware('user.permission.validate:2001');
+    }); 
+
+
 });
 
 /*==Tender create/update/List===*/
@@ -75,5 +83,5 @@ Route::prefix('offer')->group(function () {
 });
 
 //Offer actions
-Route::post('/offer-actions/create', [OfferController::class, 'createOffer']);
-Route::post('/offer-actions/update', [OfferController::class, 'updateOffer']);
+Route::post('/offer-actions/create', [OfferController::class, 'createOffer'])->middleware('user.permission.validate:1001');;
+Route::post('/offer-actions/update-state', [OfferController::class, 'updateOfferStatus'])->middleware('user.permission.validate:1001');;

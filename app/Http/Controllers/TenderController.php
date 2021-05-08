@@ -37,7 +37,7 @@ class TenderController extends Controller
     {
         $tenderCategories = TmTenderCategory::where('active', 1)->get();
         $tenderStatus = TmTenderStatus::where('id', '<>', 0)->get();
-        return view('account.tenders_create.index', compact('tenderCategories', 'tenderStatus'));
+        return view('account.tender_create.index', compact('tenderCategories', 'tenderStatus'));
     }
 
     public function account_show_categorries(Request $request)
@@ -70,12 +70,23 @@ class TenderController extends Controller
 
     }
 
-    public function account_show_tenders($tenderId)
+    public function account_show_tender($tenderId)
     {
         $tenderDetails = TmTender::find($tenderId);
         
-        return view('account.view_tenders.index', compact('tenderDetails'));
+        return view('account.view_tender.index', compact('tenderDetails'));
     }
+
+    public function account_show_Offer_avilable_tenders(Request $request)
+    {
+        $Offer_avilable_tenders = TmTender::where("tm_tender_status_id","=",config("global.tender_publish"))->cursor()->filter(function ($tender) {
+            return count($tender->offers()->get()) > 0;
+        });
+ 
+        return view('account.tenders_offer_avilable.index', compact('Offer_avilable_tenders'));
+    }
+  
+
 
     /*
      * Tender create function
