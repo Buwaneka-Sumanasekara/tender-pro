@@ -30,9 +30,11 @@ class UserController extends Controller
             $tenders=$tenders->where('tm_tender_category_id',$category)->get();
         }else{
             $tenders=$tenders->get();
+           
         }
         return view('home.home', compact('categorries', 'tenders','SelectedCategory'));
     }
+   
 
     public function show_UserManagement(Request $request)
     {

@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="slider_my">
             @foreach ($categorries as $category)
-                 <a href="{{url('/',$category->id)}}" class="text-primary">
+                 <a href="{{url('/category',$category->id)}}" class="text-primary">
                  <div class="widget {{ ($SelectedCategory!==null?(($SelectedCategory->id===$category->id)?'lazur-bg':''):'lazur-bg') }} mx-2 no-padding">
                         <div class="row p-2">
                             <div class="col-2">
@@ -71,7 +71,7 @@
 
 
 
-<script src="js/plugins/slick/slick.min.js"></script>
+    <script src="{{ asset('js/plugins/slick/slick.min.js')}}"></script>
 
 
 <script>
