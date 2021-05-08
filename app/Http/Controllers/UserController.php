@@ -73,7 +73,7 @@ class UserController extends Controller
                         if ($user_obj->um_user_status_id === config('global.user_status_active')) {
                             $user_permissions = $this->user_role_getUserRolePermissions($user_obj->um_user_role_id);
                             $user_permissions_tabs = $this->user_role_getUserRolePermissions_tabs($user_obj->um_user_role_id);
-                            session([config("global.session_user_obj") => $user_obj, config("global.session_permissions") => json_encode($user_permissions),config("global.session_permissions_tabs") => json_encode($user_permissions_tabs)]);
+                            session([config("global.session_user_obj") => $user_obj, config("global.session_permissions") => json_encode($user_permissions), config("global.session_permissions_tabs") => json_encode($user_permissions_tabs)]);
 
                             return redirect('/');
                         } else {
@@ -220,9 +220,13 @@ class UserController extends Controller
             $user_id = $userSession->id;
             $user_login_object = UmUserLogin::find($user_id);
 
+            if ($user_login_object === null) {
+                throw new Exception("Login not found");
+            }
+
             $validator = Validator::make($request->all(), [
                 'old_password' => ['required', function ($attribute, $value, $fail) {
-                    if (Hash::check($value, $user_login_object->password)) {
+                    if (isset($user_login_object) && Hash::check($value, $user_login_object->password)) {
                         $fail('Old password is not matching');
                     }
                 }],
