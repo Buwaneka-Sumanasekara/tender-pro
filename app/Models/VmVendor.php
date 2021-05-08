@@ -27,12 +27,12 @@ class VmVendor extends Model
 
     public function approvedOffers()
     {
-        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id")->where('om_offer_status_id',config("global.offer_status_approved"))
+        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id")->where('om_offer_status_id',"=",config("global.offer_status_approved"));
     }
 
     public function rejectedOffers()
     {
-        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id")->where('om_offer_status_id',config("global.offer_status_rejected"))
+        return $this->hasMany(OmOffer::class, "vm_vendor_id", "id")->where('om_offer_status_id',"=",config("global.offer_status_rejected"));
     }
 
 }

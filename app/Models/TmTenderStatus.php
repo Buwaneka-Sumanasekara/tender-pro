@@ -9,5 +9,6 @@ class TmTenderStatus extends Model
 {
     use HasFactory;
     protected $table = 'tm_tender_status';
-    protected $fillable = ['id','name'];
+    protected $fillable = ['id','name','class_name'];
+    public $incrementing = false;
 }

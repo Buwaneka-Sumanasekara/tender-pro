@@ -15,9 +15,9 @@ class OfferStatusSeeder extends Seeder
     public function run()
     {
         $ar_offer_status=[
-            ["id"=>0,"name"=>"Pending"],
-            ["id"=>1,"name"=>"Approved"],
-            ["id"=>2,"name"=>"Rejected"],
+            ["id"=>0,"name"=>"Pending","class_name"=>"warning"],
+            ["id"=>1,"name"=>"Approved","class_name"=>"primary"],
+            ["id"=>2,"name"=>"Rejected","class_name"=>"danger"],
         ];
 
         foreach ($ar_offer_status as $offer_status) {

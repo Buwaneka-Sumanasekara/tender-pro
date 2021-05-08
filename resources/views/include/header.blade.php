@@ -8,7 +8,7 @@
                 </a>
 
                    <ul class="nav navbar-top-links navbar-right">
-                    @if(empty(session('logged_user_object')))
+                    @if(empty(session(config("global.session_user_obj"))))
                         <li >
                             <a href="/login">
                                 <i class="fa fa-user"></i> &nbsp;Login

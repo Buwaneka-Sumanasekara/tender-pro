@@ -19,6 +19,7 @@ return [
      'tender_removed'=>0,
      'tender_publish'=>1,
      'tender_draft'=>2,
+     'tender_closed'=>3,
 
      //session attributes
      'session_user_obj'=>"logged_user_object",

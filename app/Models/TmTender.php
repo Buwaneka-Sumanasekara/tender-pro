@@ -24,6 +24,14 @@ class TmTender extends Model
         return $this->hasMany(OmOffer::class,'tm_tender_id','id');
     }
 
+    public function getTenderCorrectStatus(){
+        if($this->tm_tender_status_id===config("global.tender_publish") && $this->isExpired()){
+            return TmTenderStatus::find(config("global.tender_closed"));
+        }else{
+            return TmTenderStatus::find($this->tm_tender_status_id);
+        }
+    }
+
     public function getPDFFileURL()
     {
         // $url = Storage::url($this->attachment_path);
@@ -37,8 +45,9 @@ class TmTender extends Model
         } else {
             return false;
         }
-
     }
+
+  
 
     public function isExpired()
     {
@@ -65,5 +74,10 @@ class TmTender extends Model
     {
         $startDate = Carbon::parse($this->end_date);
         return $startDate->format('M d Y');
+    }
+
+    public function getOfferUserAlreadySubmited($userid){
+        $offer = OmOffer::where("tm_tender_id","=",$this->id)->where("vm_vendor_id","=",$userid)->first();
+        return $offer;
     }
 }

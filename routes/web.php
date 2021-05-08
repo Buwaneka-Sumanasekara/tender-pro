@@ -2,6 +2,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OfferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserController::class, 'show_home']);
 Route::get('/profile', [UserController::class, 'show_profile']);
-Route::get('/tenders/view/{tenderId}', [TenderController::class, 'account_show_tenders']);
+Route::get('/tenders/{tenderId}', [TenderController::class, 'account_show_tenders']);
 
 /*==User Login / Registration===*/
 Route::post('/user-actions/login', [UserController::class, 'user_login']);
@@ -61,3 +62,15 @@ Route::post('/tender-actions/update', [TenderController::class, 'updateTender'])
 Route::post('/tender-actions/category/create', [TenderController::class, 'createTenderCategory']);
 Route::get('/tender-actions/category/delete/{id}', [TenderController::class, 'deleteTenderCategory']);
 Route::post('/tender-actions/category/update', [TenderController::class, 'updateTenderCategory']);
+
+
+
+/*===Offer ==*/
+
+
+
+Route::prefix('offer')->group(function () {
+    Route::get('/create/{tenderId}', [OfferController::class, 'show_offer_create']);
+    Route::get('/{OfferId}', [OfferController::class, 'show_offer']);
+});
+

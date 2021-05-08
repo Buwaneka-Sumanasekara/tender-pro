@@ -9,16 +9,20 @@
                       <h4><strong>Tender Detail</strong></h4>
                     </div>
                     <div class="panel-body">
+                       <div class="form-group row "><label class="col-2 col-form-label"><strong>Tender ID &nbsp; :</strong></label>
+                            <div class="col-6">
+                                 <label class="col-form-label">{{ $tenderDetails->id }} &nbsp;</label>  
+
+                                 <span class=" label label-{{$tenderDetails->getTenderCorrectStatus()->class_name}}">{{$tenderDetails->getTenderCorrectStatus()->name}}</span>     
+                            </div>
+                        </div>
+                        
                         <div class="form-group row "><label class="col-2 col-form-label"><strong>Title &nbsp; :</strong></label>
                             <div class="col-6">
                                  <label class="col-form-label">{{ $tenderDetails->title }}</label>
                             </div>
                         </div>
-                        <div class="form-group row "><label class="col-2 col-form-label"><strong>Tender ID &nbsp; :</strong></label>
-                            <div class="col-6">
-                                 <label class="col-form-label">{{ $tenderDetails->id }}</label>
-                            </div>
-                        </div>
+                       
 
                         <div class="form-group row "><label class="col-2 col-form-label"><strong>Description &nbsp; :</strong></label>
                             <div class="col-6">
@@ -106,6 +110,30 @@
         </div>
     </div>
     @endif
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-white">
+                  <h4><strong>Place a Bid for this Tender</strong></h4>
+                </div>
+                <div class="panel-body">
+                    @if(empty(session(config("global.session_user_obj"))))
+                        <p>Please <a href="{{url('/login')}}">login</a> or <a href="{{url('/register')}}">register</a> for place a bid for this tender </p>
+                    @else
+                        @if(session(config("global.session_user_obj"))->um_user_role_id===config("global.user_role_admin"))
+                        <p>You're  Admin user and you can't place Bids</p>
+                        @elseif($tenderDetails->getOfferUserAlreadySubmited(session(config("global.session_user_obj"))->id)!==null)
+                            <p>You have already place a bid for this tender, Have a look it again <a href="#">see my bid</a></p>
+                        @else
+                        <p>You can place a bid by filling the info form. <a href="{{url('/offer/create',$tenderDetails->id)}}">click here</a></p>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

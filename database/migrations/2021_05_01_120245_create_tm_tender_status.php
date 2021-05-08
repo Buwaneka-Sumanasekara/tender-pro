@@ -16,6 +16,7 @@ class CreateTmTenderStatus extends Migration
         Schema::create('tm_tender_status', function (Blueprint $table) {
             $table->integer('id')->primary();
             $table->string('name',60);
+            $table->string('class_name',60);
             $table->timestamps();
         });
     }
