@@ -41,7 +41,7 @@ class OfferController extends Controller
             
             if($Offer->vm_vendor_id===$user_id || $userSession->um_user_role_id===config("global.user_role_admin")){//admin can view individual offers
                 $Tender=TmTender::find($Offer->tm_tender_id);
-                return view('account.offer_view.index',[compact('Offer'),compact('Tender')]);
+                return view('account.offer_view.index',compact('Offer','Tender'));
             }else{
                return redirect()->back();
             }    
@@ -55,12 +55,12 @@ class OfferController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'bid_amount' => 'required|numeric',
-                'period'=>'required',
+                'period_years'=>'required|digits_between:0,20',
+                'period_months'=>'required|digits_between:0,12',
                 'tender_id'=>'required|exists:tm_tender,id',
                 'note'=>'sometimes'
             ], [
                 'bid_amount.required' => 'Bid amount is required.',
-                'period.required' => 'Period should be defined',
                 'tender_id.required' => 'Tender Id is required.',
             ]);
 
@@ -77,10 +77,15 @@ class OfferController extends Controller
             $maxId = OmOffer::max("id");
             $offerId = $this->common_generate_next_offer_no($maxId);
 
+            $years=$request->get("period_years");
+            $months=$request->get("period_months");
+
+            $period=($years>0?($years==1?"1 Year ":$years." Years "):"")."".($months>0?($months===1?"1 Month ":$months." Months "):"");
+
             $offer = OmOffer::create([
                 'id' => $offerId,
                 'bid_amount' => $request->get('bid_amount'),
-                'period' => $request->get('period'),
+                'period' => $period,
                 'om_offer_status_id' => config("global.offer_status_pending"),
                 'vm_vendor_id' => $user_id,
                 'tm_tender_id'=>$request->get('tender_id'),

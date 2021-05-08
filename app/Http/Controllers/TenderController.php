@@ -73,7 +73,7 @@ class TenderController extends Controller
     public function account_show_tenders($tenderId)
     {
         $tenderDetails = TmTender::find($tenderId);
-        //dd($tenderDetails);
+        
         return view('account.view_tenders.index', compact('tenderDetails'));
     }
 

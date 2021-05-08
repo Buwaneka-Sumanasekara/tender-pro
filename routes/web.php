@@ -75,5 +75,5 @@ Route::prefix('offer')->group(function () {
 });
 
 //Offer actions
-Route::post('/offer-actions/create', [TenderController::class, 'createOffer']);
-Route::post('/offer-actions/update', [TenderController::class, 'updateOffer']);
+Route::post('/offer-actions/create', [OfferController::class, 'createOffer']);
+Route::post('/offer-actions/update', [OfferController::class, 'updateOffer']);

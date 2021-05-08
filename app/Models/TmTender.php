@@ -78,6 +78,7 @@ class TmTender extends Model
 
     public function getOfferUserAlreadySubmited($userid){
         $offer = OmOffer::where("tm_tender_id","=",$this->id)->where("vm_vendor_id","=",$userid)->first();
+        //dd($offer);
         return $offer;
     }
 }

@@ -15,6 +15,20 @@
 
                                  <span class=" label label-{{$tenderDetails->getTenderCorrectStatus()->class_name}}">{{$tenderDetails->getTenderCorrectStatus()->name}}</span>     
                             </div>
+                            <div class="col-3 offset-1">
+                                  <div class="widget lazur-bg mx-2 no-padding">
+                                        <div class="row p-2">
+                                            <div class="col-2">
+                                                <i class="fa fa-usd fa-3x"></i>
+                                            </div>
+                                            <div class="col-10 text-right">
+                                                <span>Bids Found</span>
+                                                <h2 class="font-bold">{{ count($tenderDetails->offers()->get()) }}</h2>
+                                            </div>
+                                        </div>
+                                </div> 
+
+                            </div>
                         </div>
                         
                         <div class="form-group row "><label class="col-2 col-form-label"><strong>Title &nbsp; :</strong></label>
@@ -125,7 +139,7 @@
                         @if(session(config("global.session_user_obj"))->um_user_role_id===config("global.user_role_admin"))
                         <p>You're  Admin user and you can't place Bids</p>
                         @elseif($tenderDetails->getOfferUserAlreadySubmited(session(config("global.session_user_obj"))->id)!==null)
-                            <p>You have already place a bid for this tender, Have a look it again <a href="#">see my bid</a></p>
+                            <p>You have already place a bid for this tender, Have a look it again <a href="{{url('/offer',$tenderDetails->getOfferUserAlreadySubmited(session(config('global.session_user_obj'))->id)->id)  }}">see my bid</a></p>
                         @else
                         <p>You can place a bid by filling the info form. <a href="{{url('/offer/create',$tenderDetails->id)}}">click here</a></p>
                         @endif
