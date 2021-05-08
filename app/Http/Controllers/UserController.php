@@ -20,11 +20,18 @@ class UserController extends Controller
 {
     use UserTrait;
 
-    public function show_home(Request $request)
+    public function show_home(Request $request,$category=0)
     {
         $categorries = TmTenderCategory::where('active', 1)->get();
-        $tenders = TmTender::where('tm_tender_status_id', 1)->where("end_date", '>', Carbon::now())->get();
-        return view('home.home', compact('categorries', 'tenders'));
+        $tenders=TmTender::where('tm_tender_status_id', 1)->where("end_date", '>', Carbon::now());
+        $SelectedCategory=null;
+        if($category>0){
+            $SelectedCategory=TmTenderCategory::find($category);
+            $tenders=$tenders->where('tm_tender_category_id',$category)->get();
+        }else{
+            $tenders=$tenders->get();
+        }
+        return view('home.home', compact('categorries', 'tenders','SelectedCategory'));
     }
 
     public function show_UserManagement(Request $request)

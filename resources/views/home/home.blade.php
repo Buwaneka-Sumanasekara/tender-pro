@@ -5,7 +5,8 @@
         <div class="col-md-12">
             <div class="slider_my">
             @foreach ($categorries as $category)
-                 <div class="widget lazur-bg mx-2 no-padding">
+                 <a href="{{url('/',$category->id)}}" class="text-primary">
+                 <div class="widget {{ ($SelectedCategory!==null?(($SelectedCategory->id===$category->id)?'lazur-bg':''):'lazur-bg') }} mx-2 no-padding">
                         <div class="row p-2">
                             <div class="col-2">
                                 <i class="{{$category->icon }} fa-3x"></i>
@@ -16,12 +17,20 @@
                             </div>
                         </div>
                 </div>
+                </a>
             @endforeach
 
             </div>
         </div>
     </div>
-
+    @if($SelectedCategory!==null)
+    <div class="row pb-4">
+        <div class="col-lg-12  d-inline-flex  align-items-center">
+                <h3>Filter by : {{$SelectedCategory->name}}&nbsp;&nbsp;</h3>
+                <a class="pb-1" href="{{url('/')}}"><i class="fa fa-filter"></i>&nbsp; Remove Filter</a>
+        </div>
+    </div>
+    @endif
     <div class="row">
         <div class="col-lg-12">
 

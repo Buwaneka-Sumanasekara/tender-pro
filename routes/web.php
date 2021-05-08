@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', [UserController::class, 'show_home']);
+Route::get('/{category?}', [UserController::class, 'show_home'],['category'=>0]);
 Route::get('/profile', [UserController::class, 'show_profile']);
 Route::get('/tenders/{tenderId}', [TenderController::class, 'account_show_tender']);
 
