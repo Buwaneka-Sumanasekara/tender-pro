@@ -46,17 +46,15 @@
                 <td>{{$Offer->note}} </td>
             </tr>
            
+            <tr class="table-dark">
             @if($Offer->om_offer_status_id === config("global.offer_status_pending"))
         
-            <tr class="table-dark">
                 <td>Action</td>
                 <td>
 
                 <form method="POST" action="{{url('/offer-actions/update-state')}}">
 
                   {{ csrf_field() }}
-                  @include('include.flash')
-                  @include('include.errors')
                   <input type="hidden" name="offer_id" value="{{$Offer->id}}" />
                   <input type="hidden" name="tender_id" value="{{$Tender->id}}" />
                   <input class="btn btn-success" name="action" type="submit" value="{{config('global.offer_status_action_approve')}}" />
@@ -64,7 +62,7 @@
                   <input class="btn btn-danger" name="action" type="submit" value="{{config('global.offer_status_action_reject')}}" />
                  </form>
                 </td>
-            </tr>
+            
            
             @endif
 
@@ -75,14 +73,13 @@
                 <form method="POST" action="{{url('/offer-actions/update-state')}}">
 
                   {{ csrf_field() }}
-                  @include('include.flash')
-                  @include('include.errors')
                   <input type="hidden" name="offer_id" value="{{$Offer->id}}" />
                   <input type="hidden" name="tender_id" value="{{$Tender->id}}" />
-                  <input class="btn btn-default" name="action" type="submit" value="{{config('global.offer_status_action_revert')}}" />
+                  <input class="btn btn" name="action" type="submit" value="{{config('global.offer_status_action_revert')}}" />
                  </form>
                 </td>
                     @endif
+                    </tr>
          </table>
     </div>
 
