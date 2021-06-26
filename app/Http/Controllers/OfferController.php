@@ -168,6 +168,8 @@ class OfferController extends Controller
                     $offer->om_offer_status_id=config("global.offer_status_approved");
                 }else if($request->get("action")===config("global.offer_status_action_reject")){
                     $offer->om_offer_status_id=config("global.offer_status_rejected");
+                }else if($request->get("action")===config("global.offer_status_action_revert")){
+                    $offer->om_offer_status_id=config("global.offer_status_pending");
                 }else{
                     throw new Exception("Can`t find valid action");
                 }

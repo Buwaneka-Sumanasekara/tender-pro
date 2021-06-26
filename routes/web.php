@@ -82,5 +82,5 @@ Route::prefix('offer')->group(function () {
 });
 
 //Offer actions
-Route::post('/offer-actions/create', [OfferController::class, 'createOffer'])->middleware('user.permission.validate:1001');
+Route::post('/offer-actions/create', [OfferController::class, 'createOffer'])->middleware('user.permission.validate:2001');
 Route::post('/offer-actions/update-state', [OfferController::class, 'updateOfferStatus'])->middleware('user.permission.validate:1001');

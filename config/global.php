@@ -33,6 +33,7 @@ return [
 
      'offer_status_action_approve'=>"Approve",
      'offer_status_action_reject'=>"Reject",
+     'offer_status_action_revert'=>"Revert",
 ];
 
 ?>

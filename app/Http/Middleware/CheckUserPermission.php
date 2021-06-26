@@ -28,7 +28,7 @@ class CheckUserPermission
 
         if($request->ajax()){
             return response()->json("Permission denied",401);
-        }
-        return redirect()->back();
+        } 
+        return abort(401);
     }
 }
